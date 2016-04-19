@@ -1,7 +1,8 @@
 Hello Zork!
 
-I did a new Zork and begin do commits since the commit "NEW ZORK_Created rooms and player" because 
-the last one had a very bad structure.
+(RELEASE v.05) - GitHub given me error with Branch and i didn't know how to fix it, so I did another repository.
+		 Link to the last Zork to see the commits:
+		 https://github.com/ValencianoFran/ZorkGame_Curse_Of_The_Lost
 
 CONTROLS:
 You can use these commands:
@@ -55,7 +56,7 @@ ITEMS:
 I did commits on the deleted Zork from different dispositives and they have another author name,
 but they all are done by me.
 
-(RELEASE v.05) - GitHub gives me error with Branch and i don't know how to fix it.
+
 
 
 A game by: Francisco Ruiz Gimenez
