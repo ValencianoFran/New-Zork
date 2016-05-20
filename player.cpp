@@ -2,12 +2,8 @@
 
 Player::Player(){}
 
-Player::Player(int& _hp, int& _dmg, Room* _pos)
-{
-	hp = _hp;
-	damage = _dmg;
-	position = _pos;
-}
+Player::Player(int& hp, int& dmg, Room* pos) : hp(hp), damage(dmg), position(pos)
+{}
 
 Player::~Player()
 {}

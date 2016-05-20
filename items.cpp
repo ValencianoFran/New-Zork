@@ -3,8 +3,8 @@
 Items::Items()
 {}
 
-Items::Items(const char* _name, const char* _description, Room* _place, const int& _hp, const int& _dmg, const equip _slot, const bool& _container, const bool& _inside, const bool& _already_inside)
-: place(_place), Entity(_name, _description), item_hp(_hp), item_damage(_dmg), slot(_slot), container(_container), inside(_inside), already_inside(_already_inside)
+Items::Items(const char* name, const char* description, Room* place, const int& hp, const int& dmg, const equip slot, const bool& container, const bool& inside, const bool& already_inside)
+: place(place), Entity(name, description), item_hp(hp), item_damage(dmg), slot(slot), container(container), inside(inside), already_inside(already_inside)
 {}
 
 
