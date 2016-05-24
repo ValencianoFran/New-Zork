@@ -9,7 +9,7 @@
 
 
 #define NUM_EXITS 16
-#define INVALID -1
+
 
 World::World()
 {
@@ -23,109 +23,108 @@ World::~World()
 
 void World::CreatePlayer() const
 {
-	player->position = room[0];
+	player->position = (Room*)entity[0];
+	player->Look();
 }
 
 
 
 void World::CreateWorld()
 {
-	
 	/*  -- Room name and description --   */
 
 	// ROOM 0
-	room.push_back(new Room("Shore", "You are in a shore, you can try to do snorquel going down, or explore others directions\n"));
+	entity.push_back(new Room("Shore", "You are in a shore, you can try to do snorquel going down, or explore others directions\n", ROOM));
 	
 	// ROOM 1
-	room.push_back(new Room("Depths", "It seems to be a pearl inside the oyster\n"));
-
+	entity.push_back(new Room("Depths", "It seems to be a pearl inside the oyster\n", ROOM));
+	
 	// ROOM 2
-	room.push_back(new Room("Sea", "There are sharks!! I will try to come here later with something to kill them\n"));
+	entity.push_back(new Room("Sea", "There are sharks!! I will try to come here later with something to kill them\n", ROOM));
 
 	// ROOM 3
-	room.push_back(new Room("Palmtrees Island", "Wow there are a lot of palmtrees, it seems that there are something on that one on the east\n"));
+	entity.push_back(new Room("Palmtrees Island", "Wow there are a lot of palmtrees, it seems that there are something on that one on the east\n", ROOM));
 
 	// ROOM 4
-	room.push_back(new Room("Palmtree", "There are a monkey! what should i do now?"));
+	entity.push_back(new Room("Palmtree", "There are a monkey! what should i do now?", ROOM));
 
 	// ROOM 5
-	room.push_back(new Room("Outside house", "I can see a cool house in south, but the door is closed\n"));
+	entity.push_back(new Room("Outside house", "I can see a cool house in south, but the door is closed\n", ROOM));
 
 	// ROOM 6
-	room.push_back(new Room("House", "This house is so extravagant\nThere's a man\n"));
+	entity.push_back(new Room("House", "This house is so extravagant\nThere's a man\n", ROOM));
 
 	// ROOM 7
-	room.push_back(new Room("Shop", "Maybe i should buy something to kill the sharks and leave this islands.\nThere are something down stairs\n"));
+	entity.push_back(new Room("Shop", "Maybe i should buy something to kill the sharks and leave this islands.\nThere are something down stairs\n", ROOM));
 
 	// ROOM 8
-	room.push_back(new Room("Store", "Here is the inventory of the shop, I could catch something borrowed"));
+	entity.push_back(new Room("Store", "Here is the inventory of the shop, I could catch something borrowed", ROOM));
 
 
 	/*  -- EXITS --    */
 
 	//EXIT 0
-	exit.push_back(new Exit("Palmtrees Island\n", "There are a lot of trees, seems interesting\n", room[0], room[3], north, false));
+	entity.push_back(new Exit("Palmtrees Island\n", "There are a lot of trees, seems interesting\n", (Room*)entity[0], (Room*)entity[3], north, false, EXIT));
 
 	//EXIT 1
-	exit.push_back(new Exit("Shore\n", "There is where I begin this adventure, i should try to do snorquel\n", room[3], room[0], south, false));
+	entity.push_back(new Exit("Shore\n", "There is where I begin this adventure, i should try to do snorquel\n", (Room*)entity[3], (Room*)entity[0], south, false, EXIT));
 
 	//EXIT 2
-	exit.push_back(new Exit("Palmtree\n", "Maybe there are something in the top of that palmtree\n", room[3], room[4], east, false));
+	entity.push_back(new Exit("Palmtree\n", "Maybe there are something in the top of that palmtree\n", (Room*)entity[3], (Room*)entity[4], east, false, EXIT));
 
 	//EXIT 3
-	exit.push_back(new Exit("Palmtrees Island\n", "There are a lot of trees, seems interesting\n", room [4], room[3], west, false));
+	entity.push_back(new Exit("Palmtrees Island\n", "There are a lot of trees, seems interesting\n", (Room*)entity[4], (Room*)entity[3], west, false, EXIT));
 
 	//EXIT 4
-	exit.push_back(new Exit("Sea\n", "There are a sea, seems dangerous\n", room[0], room[2], west, false));
+	entity.push_back(new Exit("Sea\n", "There are a sea, seems dangerous\n", (Room*)entity[0], (Room*)entity[2], west, false, EXIT));
 
 	//EXIT 5
-	exit.push_back(new Exit("Shore\n", "There is where I begin this adventure, i should try to do snorquel\n", room[2], room[0], east, false));
+	entity.push_back(new Exit("Shore\n", "There is where I begin this adventure, i should try to do snorquel\n", (Room*)entity[2], (Room*)entity[0], east, false, EXIT));
 
 	//EXIT 6
-	exit.push_back(new Exit("Depths\n", "It seems deep\n", room[0], room[1], down, false));
+	entity.push_back(new Exit("Depths\n", "It seems deep\n", (Room*)entity[0], (Room*)entity[1], down, false, EXIT));
 
 	//EXIT 7
-	exit.push_back(new Exit("Shore\n", "There is where I begin this adventure, i should try to do snorquel\n", room[1], room[0], up, false));
+	entity.push_back(new Exit("Shore\n", "There is where I begin this adventure, i should try to do snorquel\n", (Room*)entity[1], (Room*)entity[0], up, false, EXIT));
 
 	//EXIT 8
-	exit.push_back(new Exit("Outside House\n", "There are a pretty garden, i should take a look\n", room[0], room[5], east, false));
+	entity.push_back(new Exit("Outside House\n", "There are a pretty garden, i should take a look\n", (Room*)entity[0], (Room*)entity[5], east, false, EXIT));
 
 	//EXIT 9
-	exit.push_back(new Exit("Shore\n", "There is where I begin this adventure, i should try to do snorquel\n", room[5], room[0], west, false));
+	entity.push_back(new Exit("Shore\n", "There is where I begin this adventure, i should try to do snorquel\n", (Room*)entity[5], (Room*)entity[0], west, false, EXIT));
 
 	//EXIT 10
-	exit.push_back(new Exit("Shop\n", "There must be interesting things to buy\n", room[0], room[7], south, false));
+	entity.push_back(new Exit("Shop\n", "There must be interesting things to buy\n", (Room*)entity[0], (Room*)entity[7], south, false, EXIT));
 
 	//EXIT 11
-	exit.push_back(new Exit("Shore\n", "There is where I begin this adventure, i should try to do snorquel\n", room[7], room[0], north, false));
+	entity.push_back(new Exit("Shore\n", "There is where I begin this adventure, i should try to do snorquel\n", (Room*)entity[7], (Room*)entity[0], north, false, EXIT));
 
 	//EXIT 12
-	exit.push_back(new Exit("Store\n", "What would be down stairs?\n", room[7], room[8], down, false));
+	entity.push_back(new Exit("Store\n", "What would be down stairs?\n", (Room*)entity[7], (Room*)entity[8], down, false, EXIT));
 
 	//EXIT 13
-	exit.push_back(new Exit("Shop\n", "There must be interesting things to buy\n", room[8], room[7], up, false));
+	entity.push_back(new Exit("Shop\n", "There must be interesting things to buy\n", (Room*)entity[8], (Room*)entity[7], up, false, EXIT));
 
 	//EXIT 14
-	exit.push_back(new Exit("House\n", "There is a pretty garden!\n", room[5], room[6], south, true));
+	entity.push_back(new Exit("House\n", "There is a pretty garden!\n", (Room*)entity[5], (Room*)entity[6], south, true, EXIT));
 
 	//EXIT 15
-	exit.push_back(new Exit("Outside House\n", "\n", room[6], room[5], north, false));
+	entity.push_back(new Exit("Outside House\n", "\n", (Room*)entity[6], (Room*)entity[5], north, false, EXIT));
 
 
 	//ITEMS
 
-	item.push_back(new Items("Guitar", "You can use this object to attract the monkey\n", room[6], 10, 0, Hand, false, false, false));
-	item.push_back(new Items("Pearl", "It seems very expensive\n", room[1], 10, 0, Cant_Equip, false, true, true));
-	item.push_back(new Items("Harpoon", "It seems powerful and dangerous\n", room[7], 10, 20, Hand, false, false, false));
-	item.push_back(new Items("Oyster", "Maybe constains something with value inside\n", room[1], 10, 0, Cant_Equip, true, false, false));
-	item.push_back(new Items("Goggles", "This should allow me to snorquel\n", room[6], 10, 0, Head, false, true, true));
-	item.push_back(new Items("Knife", "It cuts, should be careful\n", room[8], 10, 20, Hand, false, true, true));
-	item.push_back(new Items("Banana", "It doesn't smell good\n", room[8], 10, 0, Hand, false, false, false));
-	item.push_back(new Items("Chest", "There are a knife inside it\n", room[8], 10, 0, Cant_Equip, true, false, false));
-	item.push_back(new Items("Box", "There are goggles inside\n", room[6], 10, 0, Cant_Equip, true, false, false));
-	item.push_back(new Items("Boat", "It allows you to navegate in the sea\n", room[0], 10, 0, Drive, false, false, false));
+	entity.push_back(new Items("Guitar", "You can use this object to attract the monkey\n", (Room*)entity[6], 10, 0, Hand, false, false, false, ITEM));
+	entity.push_back(new Items("Pearl", "It seems very expensive\n", (Room*)entity[1], 10, 0, Cant_Equip, false, true, true, ITEM));
+	entity.push_back(new Items("Harpoon", "It seems powerful and dangerous\n", (Room*)entity[7], 10, 20, Hand, false, false, false));
+	entity.push_back(new Items("Oyster", "Maybe constains something with value inside\n", (Room*)entity[1], 10, 0, Cant_Equip, true, false, false, ITEM));
+	entity.push_back(new Items("Goggles", "This should allow me to snorquel\n", (Room*)entity[6], 10, 0, Head, false, true, true, ITEM));
+	entity.push_back(new Items("Knife", "It cuts, should be careful\n", (Room*)entity[8], 10, 20, Hand, false, true, true, ITEM));
+	entity.push_back(new Items("Banana", "It doesn't smell good\n", (Room*)entity[8], 10, 0, Hand, false, false, false, ITEM));
+	entity.push_back(new Items("Chest", "There are a knife inside it\n", (Room*)entity[8], 10, 0, Cant_Equip, true, false, false, ITEM));
+	entity.push_back(new Items("Box", "There are goggles inside\n", (Room*)entity[6], 10, 0, Cant_Equip, true, false, false, ITEM));
+	entity.push_back(new Items("Boat", "It allows you to navegate in the sea\n", (Room*)entity[0], 10, 0, Drive, false, false, false, ITEM));
 
-	CreatePlayer();
 }
 
 
@@ -156,92 +155,8 @@ Vector<String> World::Mayus(String& str)//Transform capital letters to lowercase
 	return word;
 }
 
-int World::Direction(const String& op) //Check the direction is valid
-{
-
-	if (op == "north" || op == "n")
-	{
-		return 0;
-	}
-	if (op == "south" || op == "s")
-	{
-		return 1;
-	}
-	if (op == "east" || op == "e")
-	{
-		return 2;
-	}
-	if (op == "west" || op == "w")
-	{
-		return 3;
-	}
-	if (op == "up" || op == "u")
-	{
-		return 4;
-	}
-	if (op == "down" || op == "d")
-	{
-		return 5;
-	}
-	return INVALID;
-}
 
 
-void World::Go(const String& op) //Move player
-{
-	int direc = INVALID;
-	int  i = 0;
-	bool finish = false;   //Check if go action is completed
-	direc = Direction(op); //Check the direction is valid
-
-	if (direc == INVALID)
-	{
-		printf("Invalid direction\n\n");
-		return;
-	}
-
-	else
-	{
-		for (i = 0; i < NUM_EXITS; i++)
-		{
-			if (exit[i]->origin->name == player->position->name)
-			{
-				if (exit[i]->direction == direc)
-				{
-					if (exit[i]->destination == room[1] && item[4]->equipped == false)
-					{
-						printf("You need have googles equiped to do snorquel\n");
-						finish = true;
-						break;
-					}
-					if (exit[i]->destination == room[2] && item[9]->equipped == false)
-					{
-						printf("You need have boat equiped\n");
-						finish = true;
-						break;
-					}
-					if (exit[i]->close == true)
-					{
-						printf("The door is closed\n");
-						finish = true;
-						break;
-					}
-					else{
-						player->position = exit[i]->destination;
-						printf("\nYou are in %s\n\n%s \n", player->position->name.c_str(), player->position->description.c_str());
-
-						finish = true;
-						break;
-					}
-				}
-			}
-		}
-		if (finish == false)
-		{
-			printf("\nThere is nothing there, you can't go this way\n");
-		}
-	}
-}
 
 void World::Look(const String& op) //Look the exit
 {
@@ -399,139 +314,7 @@ void World::Tutorial() const //Controls of the game
 }
 
 
-void World::Action(Vector<String> &act, const int& space) //Do the action that the player input
-{
-	/*With 1 word input*/
-	/*Go actions (every 'if' does the same function)*/
 
-	if (act[0] == "north" || act[0] == "n")
-	{
-		Go(act[0]);
-		return;
-	}
-	if (act[0] == "south" || act[0] == "s")
-	{
-		Go(act[0]);
-		return;
-	}
-
-	if (act[0] == "east" || act[0] == "e")
-	{
-		Go(act[0]);
-		return;
-	}
-	if (act[0] == "west" || act[0] == "w")
-	{
-		Go(act[0]);
-		return;
-	}
-	if (act[0] == "up" || act[0] == "u")
-	{
-		Go(act[0]);
-		return;
-	}
-	if (act[0] == "down" || act[0] == "d")
-	{
-		Go(act[0]);
-		return;
-	}
-
-
-	//With 2 words input
-
-	else if (act.Size() > 1 && (act[0] == "go" || act[0] == "g"))
-	{
-		Go(act[1]);
-		return;
-	}
-
-	else if (space <= 2 && (act[0] == "look" || act[0] == "l"))
-	{
-		if (space == 0)
-		{
-			Look(act[0]);
-			return;
-		}
-		else
-		{
-			Look(act[1]);
-			return;
-		}
-	}
-
-	else if (act.Size() > 1 && (act[0] == "open" || act[0] == "o"))
-	{
-		Open(act[1]);
-		return;
-	}
-	else if (act.Size() > 1 && (act[0] == "close" || act[0] == "c"))
-	{
-		Close(act[1]);
-		return;
-	}
-
-
-	//Quit and help
-	else if (space >= 0  && act[0] == "quit")
-	{
-		return;
-	}
-
-	else if (act[0] == "help" || act[0] == "h")
-	{
-		Tutorial();
-		return;
-	}
-
-	else if (space == 1 && act[0] == "pick")
-	{
-		Pick(act[1]);
-		return;
-	}
-
-	else if (space == 1 && act[0] == "drop")
-	{
-		Drop(act[1]);
-		return;
-	}
-
-	else if (act[0] == "inventory" || act[0] == "inv" || act[0] == "i")
-	{
-		Inventory();
-		return;
-	}
-
-	else if (space == 1 && act[0] == "equip")
-	{
-		Equip(act[1]);
-		return;
-	}
-
-	else if (space == 1 && act[0] == "unequip")
-	{
-		Unequip(act[1]);
-		return;
-	}
-
-	else if (space == 3 && (act[0] == "put" && act[2] == "into"))
-	{
-		Put(act[1], act[3]);
-		return;
-	}
-
-	else if (space == 3 && (act[0] == "get" && act[2] == "from"))
-	{
-		Get(act[1], act[3]);
-		return;
-	}
-
-
-
-	//If the user introduces invalid action
-	else{
-		printf("I don't understand\n");
-	}
-}
 void World::Inventory()
 {
 	int done = 0;

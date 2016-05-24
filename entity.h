@@ -4,7 +4,7 @@
 #include "dlist.h"
 #include "string.h"
 
-enum Shape{ ROOM, EXIT, PLAYER, ITEM };
+enum Shape{ ROOM = 0, EXIT, CREATURE, ITEM };
 
 class Entity
 {
@@ -16,9 +16,8 @@ public:
 	Dlist <Entity*> list;
 	
 	Entity();
-	Entity(const char* name, const char* description);
-	virtual void Look()
-	{};
+	Entity(const char* name, const char* description, const Shape shape);
+	virtual void Look(){};
 	~Entity();
 };
 

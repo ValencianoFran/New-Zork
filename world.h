@@ -15,9 +15,7 @@ class Player;
 class World : public Entity
 {
 public:
-	Vector <Room*> room;
-	Vector <Exit*> exit;
-	Vector <Items*> item;
+	Vector<Entity*> entity;
 	Player* player;
 
 	World();
@@ -27,11 +25,12 @@ public:
 	void CreateWorld();
 
 	Vector<String> Mayus(String&);
-	int Direction(const String&);
+	
 	int Item_verification(const String&);
 	void Look(const String&);
 	
 
 };
+extern World* world;
 
 #endif

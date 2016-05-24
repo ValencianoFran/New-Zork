@@ -30,9 +30,10 @@ public:
 	equip slot; // What slot uses
 	int item_hp;
 	int item_damage;
+
 	Items();
 	~Items();
-	Items(const char* _name, const char* _description, Room*, const int& hp, const int& dmg, const equip, const bool& container, const bool& inside, const bool& already_inside);
+	Items(const char* name, const char* description, Room*, const int& hp, const int& dmg, const equip, const bool& container, const bool& inside, const bool& already_inside, Shape shape);
 	void Look()const;
 };
 

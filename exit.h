@@ -20,7 +20,7 @@ public:
 	Room* destination;
 	dir direction;
 	bool close = false;
-	Exit(const char* _name, const char* _desc, Room* orig, Room* dest, const dir direc, bool clse);
+	Exit(const char* name, const char* desc, Room* orig, Room* dest, const dir direc, bool close, Shape shape);
 	~Exit();
 };
 

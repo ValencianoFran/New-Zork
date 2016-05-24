@@ -3,7 +3,7 @@
 
 Entity::Entity(){}
 
-Entity::Entity(const char* name, const char* description) : name(name), description(description)
+Entity::Entity(const char* name, const char* description, const Shape shape) : name(name), description(description), shape(shape)
 {}
 
 

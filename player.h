@@ -24,7 +24,7 @@ public:
 	Player(int&, int&, Room*);
 	void Stats();
 	void Go(const String&);
-	void Action(Vector <String>&, const int& space);
+	int Direction(const String&);
 	void Close(const String&);
 	void Open(const String&);
 	void Pick(const String&);
@@ -34,6 +34,7 @@ public:
 	void Put(const String&, const String&);
 	void Get(const String&, const String&);
 	void Inventory();
+	void Look();
 	~Player();
 };
 
