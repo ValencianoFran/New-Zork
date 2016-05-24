@@ -27,20 +27,10 @@ public:
 	void CreateWorld();
 
 	void Mayus(String&);
-	void Go(const String&);
 	int Direction(const String&);
-	void Action(Vector <String>&, const int& space);
 	int Item_verification(const String&);
 	void Look(const String&);
-	void Close(const String&);
-	void Open(const String&);
-	void Pick(const String&);
-	void Drop(const String&);
-	void Equip(const String&);
-	void Unequip(const String&);
-	void Put(const String&, const String&);
-	void Get(const String&, const String&);
-	void Inventory();
+	
 
 };
 

@@ -8,17 +8,33 @@
 class Player :public Entity
 {
 public:
-	Room* position;
-	Player();
-	~Player();
-	Player(int&, int&, Room*);
-	bool _head = false;
-	bool _hand = false;
-	bool _drive = false;
+	bool head = false;
+	bool hand = false;
+	bool drive = false;
+
 	int hp = 10;
 	int damage = 10;
+
 	unsigned int num_items = 0;
 	unsigned int bag_capacity = 10;
+
+	Room* position;
+
+	Player();
+	Player(int&, int&, Room*);
+	void Stats();
+	void Go(const String&);
+	void Action(Vector <String>&, const int& space);
+	void Close(const String&);
+	void Open(const String&);
+	void Pick(const String&);
+	void Drop(const String&);
+	void Equip(const String&);
+	void Unequip(const String&);
+	void Put(const String&, const String&);
+	void Get(const String&, const String&);
+	void Inventory();
+	~Player();
 };
 
 #endif

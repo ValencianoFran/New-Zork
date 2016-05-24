@@ -648,28 +648,28 @@ void World::Equip(const String& _item)
 		{
 			if (item[j]->equipped == false && item[j]->picked == true)
 			{
-				if (item[j]->slot == 0 && player->_head == false)
+				if (item[j]->slot == 0 && player->head == false)
 				{
 					item[j]->equipped = true;
 					item[j]->picked = false;
-					player->_head = true;
+					player->head = true;
 					printf("You equiped %s\n", item[j]->name.c_str());
 					return;
 				}
-				if (item[j]->slot == 1 && player->_hand == false)
+				if (item[j]->slot == 1 && player->hand == false)
 				{
 					item[j]->equipped = true;
 					item[j]->picked = false;
-					player->_hand = true;
+					player->hand = true;
 					printf("You equiped %s\n", item[j]->name.c_str());
 					return;
 				}
 
-				if (item[j]->slot == 3 && player->_drive == false)
+				if (item[j]->slot == 3 && player->drive == false)
 				{
 					item[j]->equipped = true;
 					item[j]->picked = false;
-					player->_drive = true;
+					player->drive = true;
 					printf("You equiped %s\n", item[j]->name.c_str());
 					return;
 				}
@@ -678,15 +678,15 @@ void World::Equip(const String& _item)
 
 			else
 			{
-				if (item[j]->slot == 0 && player->_head == true)
+				if (item[j]->slot == 0 && player->head == true)
 				{
 					printf("Actually your head is equiped\n");
 				}
-				if (item[j]->slot == 1 && player->_hand == true)
+				if (item[j]->slot == 1 && player->hand == true)
 				{
 					printf("Actually your hand is equiped\n");
 				}
-				if (item[j]->slot == 3 && player->_drive == true)
+				if (item[j]->slot == 3 && player->drive == true)
 				{
 					printf("Actually you have transport\n");
 				}
@@ -716,28 +716,28 @@ void World::Unequip(const String& _item)
 		{
 			if (item[j]->equipped == true)
 			{
-				if (item[j]->slot == 0 && player->_head == true)
+				if (item[j]->slot == 0 && player->head == true)
 				{
 					item[j]->equipped = false;
 					item[j]->picked = true;
-					player->_head = false;
+					player->head = false;
 					printf("You unequipped %s\n", item[j]->name.c_str());
 					return;
 				}
-				if (item[j]->slot == 1 && player->_hand == true)
+				if (item[j]->slot == 1 && player->hand == true)
 				{
 					item[j]->equipped = false;
 					item[j]->picked = true;
-					player->_hand = false;
+					player->hand = false;
 					printf("You unequipped %s\n", item[j]->name.c_str());
 					return;
 				}
 
-				if (item[j]->slot == 3 && player->_drive == true)
+				if (item[j]->slot == 3 && player->drive == true)
 				{
 					item[j]->equipped = false;
 					item[j]->picked = true;
-					player->_drive = false;
+					player->drive = false;
 					printf("You unequipped %s\n", item[j]->name.c_str());
 					return;
 				}
