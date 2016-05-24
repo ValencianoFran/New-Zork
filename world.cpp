@@ -129,7 +129,7 @@ void World::CreateWorld()
 }
 
 
-void World::Mayus(String& str)//Transform capital letters to lowercase and iniciate the loop with Action
+Vector<String> World::Mayus(String& str)//Transform capital letters to lowercase and iniciate the loop with Action
 {
 	str.tolower_method();//transforms in to lowercase
 	Vector <String> word;
@@ -153,7 +153,7 @@ void World::Mayus(String& str)//Transform capital letters to lowercase and inici
 	
 	
 
-	Action(word, spc);
+	return word;
 }
 
 int World::Direction(const String& op) //Check the direction is valid
