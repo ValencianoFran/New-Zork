@@ -6,7 +6,8 @@
 class Room : public Entity
 {
 public:
-	Room(const char* name, const char* description, const Shape shape);
+	bool item_required = false; // Requires an item to access
+	Room(const char* name, const char* description, const Shape shape, const bool item_required);
 	~Room();
 };
 

@@ -27,27 +27,21 @@ void Player::Go(const String& op) //Move player
 			{
 				if (((Exit*)world->entity[i])->direction == direction)
 				{
-					if (exit[i]->destination == room[1] && item[4]->equipped == false)///////////////////////////////
+					if (((Room*)world->entity[i])->item_required == true)
 					{
-						printf("You need have googles equiped to do snorquel\n");
+						printf("You need an special item to come here\n");
 						finish = true;
 						break;
 					}
-					if (exit[i]->destination == room[2] && item[9]->equipped == false)
-					{
-						printf("You need have boat equiped\n");
-						finish = true;
-						break;
-					}
-					if (exit[i]->close == true)
+					if (((Exit*)world->entity[i])->close == true)
 					{
 						printf("The door is closed\n");
 						finish = true;
 						break;
 					}
 					else{
-						player->position = exit[i]->destination;
-						printf("\nYou are in %s\n\n%s \n", player->position->name.c_str(), player->position->description.c_str());
+						this->position = ((Exit*)world->entity[i])->destination;
+						printf("\nYou are in %s\n\n%s \n", this->position->name.c_str(), this->position->description.c_str());
 
 						finish = true;
 						break;
@@ -55,6 +49,7 @@ void Player::Go(const String& op) //Move player
 				}
 			}
 		}
+
 		if (finish == false)
 		{
 			printf("\nThere is nothing there, you can't go this way\n");

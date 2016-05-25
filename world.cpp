@@ -34,31 +34,31 @@ void World::CreateWorld()
 	/*  -- Room name and description --   */
 
 	// ROOM 0
-	entity.push_back(new Room("Shore", "You are in a shore, you can try to do snorquel going down, or explore others directions\n", ROOM));
+	entity.push_back(new Room("Shore", "You are in a shore, you can try to do snorquel going down, or explore others directions\n", ROOM, false));
 	
 	// ROOM 1
-	entity.push_back(new Room("Depths", "It seems to be a pearl inside the oyster\n", ROOM));
+	entity.push_back(new Room("Depths", "It seems to be a pearl inside the oyster\n", ROOM, true));
 	
 	// ROOM 2
-	entity.push_back(new Room("Sea", "There are sharks!! I will try to come here later with something to kill them\n", ROOM));
+	entity.push_back(new Room("Sea", "There are sharks!! I will try to come here later with something to kill them\n", ROOM, true));
 
 	// ROOM 3
-	entity.push_back(new Room("Palmtrees Island", "Wow there are a lot of palmtrees, it seems that there are something on that one on the east\n", ROOM));
+	entity.push_back(new Room("Palmtrees Island", "Wow there are a lot of palmtrees, it seems that there are something on that one on the east\n", ROOM, false));
 
 	// ROOM 4
-	entity.push_back(new Room("Palmtree", "There are a monkey! what should i do now?", ROOM));
+	entity.push_back(new Room("Palmtree", "There are a monkey! what should i do now?", ROOM, false));
 
 	// ROOM 5
-	entity.push_back(new Room("Outside house", "I can see a cool house in south, but the door is closed\n", ROOM));
+	entity.push_back(new Room("Outside house", "I can see a cool house in south, but the door is closed\n", ROOM, false));
 
 	// ROOM 6
-	entity.push_back(new Room("House", "This house is so extravagant\nThere's a man\n", ROOM));
+	entity.push_back(new Room("House", "This house is so extravagant\nThere's a man\n", ROOM, false));
 
 	// ROOM 7
-	entity.push_back(new Room("Shop", "Maybe i should buy something to kill the sharks and leave this islands.\nThere are something down stairs\n", ROOM));
+	entity.push_back(new Room("Shop", "Maybe i should buy something to kill the sharks and leave this islands.\nThere are something down stairs\n", ROOM, false));
 
 	// ROOM 8
-	entity.push_back(new Room("Store", "Here is the inventory of the shop, I could catch something borrowed", ROOM));
+	entity.push_back(new Room("Store", "Here is the inventory of the shop, I could catch something borrowed", ROOM, false));
 
 
 	/*  -- EXITS --    */
@@ -116,7 +116,7 @@ void World::CreateWorld()
 
 	entity.push_back(new Items("Guitar", "You can use this object to attract the monkey\n", (Room*)entity[6], 10, 0, Hand, false, false, false, ITEM));
 	entity.push_back(new Items("Pearl", "It seems very expensive\n", (Room*)entity[1], 10, 0, Cant_Equip, false, true, true, ITEM));
-	entity.push_back(new Items("Harpoon", "It seems powerful and dangerous\n", (Room*)entity[7], 10, 20, Hand, false, false, false));
+	entity.push_back(new Items("Harpoon", "It seems powerful and dangerous\n", (Room*)entity[7], 10, 20, Hand, false, false, false, ITEM));
 	entity.push_back(new Items("Oyster", "Maybe constains something with value inside\n", (Room*)entity[1], 10, 0, Cant_Equip, true, false, false, ITEM));
 	entity.push_back(new Items("Goggles", "This should allow me to snorquel\n", (Room*)entity[6], 10, 0, Head, false, true, true, ITEM));
 	entity.push_back(new Items("Knife", "It cuts, should be careful\n", (Room*)entity[8], 10, 20, Hand, false, true, true, ITEM));
@@ -137,7 +137,7 @@ Vector<String> World::Mayus(String& str)//Transform capital letters to lowercase
 	if ((spc + 1) == str.lenght())
 	{
 		printf("Invalid command\n");
-		return;
+		return word;
 	}
 
 	if (spc != 0)
@@ -155,9 +155,13 @@ Vector<String> World::Mayus(String& str)//Transform capital letters to lowercase
 	return word;
 }
 
+void World::Tutorial() const //Controls of the game
+{
+	printf("CONTROLS:\n\tYou can use these commands:\n\tgo [direction], look [direction], open/close [direction], help and quit\n\twith these directions:\n\t<north, south, east, west, up, down>\n\t<n, s, e, w, u, d>\n\tPick/Drop <pick, drop>\n\tEquip/Unequip <equip, unequip>\n\tInventory <inventory, inv, i>\n\tput/get <item> into/from <item>\n\n\tDefault action is 'go' if you only introduce the direction.\n");
+}
 
 
-
+/*
 void World::Look(const String& op) //Look the exit
 {
 	int direc = INVALID;
@@ -308,10 +312,7 @@ void World::Close(const String& op) //Close doors, same function of Open, but it
 	}
 }
  
-void World::Tutorial() const //Controls of the game
-{
-	printf("CONTROLS:\n\tYou can use these commands:\n\tgo [direction], look [direction], open/close [direction], help and quit\n\twith these directions:\n\t<north, south, east, west, up, down>\n\t<n, s, e, w, u, d>\n\tPick/Drop <pick, drop>\n\tEquip/Unequip <equip, unequip>\n\tInventory <inventory, inv, i>\n\tput/get <item> into/from <item>\n\n\tDefault action is 'go' if you only introduce the direction.\n");
-}
+
 
 
 
@@ -651,5 +652,6 @@ void World::Get(const String& _get, const String& _from)
 		printf("You can't get that item from it\n");
 		return;
 	}
-
+	
 }
+*/

@@ -34,7 +34,6 @@ public:
 	void Put(const String&, const String&);
 	void Get(const String&, const String&);
 	void Inventory();
-	void Look();
 	~Player();
 };
 
