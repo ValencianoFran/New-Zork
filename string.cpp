@@ -141,16 +141,25 @@ char String::return_word(const int& number) const
 }
 
 //TOKEN 
-void String::TokenizeString(char* str, Vector<String> &word)
+const Vector<String> String::Divide(const char *to_divide, char* command)
 {
-	char* temp = nullptr;
-	char* save = nullptr;
-	temp = strtok_s(str, " ", &save);
-	while (temp != NULL)
+	Vector<String> new_vec;
+
+	unsigned int lenght = strlen(command);
+	char* temp;
+	char* word;
+	char* save;
+	temp = new char[lenght + 1];
+	strcpy_s(temp, lenght + 1, command);
+
+	word = strtok_s(temp, to_divide, &save);
+	while (word != '\0')
 	{
-		word.push_back(temp);
-		temp = strtok_s(NULL, " ", &save);
+		new_vec.push_back(word);
+		word = strtok_s('\0', to_divide, &save);
 	}
+	delete[] temp;
+	return new_vec;
 }
 
 

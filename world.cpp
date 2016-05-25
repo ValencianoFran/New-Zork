@@ -128,33 +128,6 @@ void World::CreateWorld()
 }
 
 
-Vector<String> World::Mayus(String& str)//Transform capital letters to lowercase and iniciate the loop with Action
-{
-	str.tolower_method();//transforms in to lowercase
-	Vector <String> word;
-	int spc = str.spaces();
-
-	if ((spc + 1) == str.lenght())
-	{
-		printf("Invalid command\n");
-		return word;
-	}
-
-	if (spc != 0)
-	{
-		str.TokenizeString(str.c_str(), word); //divide the principal string in to differents strings
-	}
-
-	else
-	{
-		word.push_back(str.c_str());
-	}
-	
-	
-
-	return word;
-}
-
 void World::Tutorial() const //Controls of the game
 {
 	printf("CONTROLS:\n\tYou can use these commands:\n\tgo [direction], look [direction], open/close [direction], help and quit\n\twith these directions:\n\t<north, south, east, west, up, down>\n\t<n, s, e, w, u, d>\n\tPick/Drop <pick, drop>\n\tEquip/Unequip <equip, unequip>\n\tInventory <inventory, inv, i>\n\tput/get <item> into/from <item>\n\n\tDefault action is 'go' if you only introduce the direction.\n");

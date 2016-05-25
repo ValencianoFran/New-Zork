@@ -8,7 +8,7 @@ World* world = nullptr;
 int main() {
 	fflush(stdin);
 	world = new World;
-	Vector<String> final_direc;
+	String action;
 	char direc[30];
 
 	printf("WELCOME TO MY ZORK!\nYou are lost in one island and you have to scape.\nHave fun!\n\n");
@@ -19,51 +19,54 @@ int main() {
 
 	while (1)
 	{
+		printf("- ");
 		gets_s(direc, 30);
-		String direction(direc);
-		if (world->Mayus(direction)[0] == "quit" || world->Mayus(direction)[0] == "q")
+		action = direc;
+		action.tolower_method();
+		Vector<String> commands = action.Divide(" ", direc);
+		if (commands[0] == "quit" || commands[0] == "q")
 		{
 			break;
 		}
 
-		if (final_direc[0] == "north" || final_direc[0] == "n")
+		if (commands[0] == "north" || commands[0] == "n")
 		{
-			world->player->Go(final_direc[0]);
+			world->player->Go(commands[0]);
 			break;
 		}
-		if (final_direc[0] == "south" || final_direc[0] == "s")
+		if (commands[0] == "south" || commands[0] == "s")
 		{
-			world->player->Go(final_direc[0]);
+			world->player->Go(commands[0]);
 			break;
 		}
 
-		if (final_direc[0] == "east" || final_direc[0] == "e")
+		if (commands[0] == "east" || commands[0] == "e")
 		{
-			world->player->Go(final_direc[0]);
+			world->player->Go(commands[0]);
 			break;
 		}
-		if (final_direc[0] == "west" || final_direc[0] == "w")
+		if (commands[0] == "west" || commands[0] == "w")
 		{
-			world->player->Go(final_direc[0]);
+			world->player->Go(commands[0]);
 			break;
 		}
-		if (final_direc[0] == "up" || final_direc[0] == "u")
+		if (commands[0] == "up" || commands[0] == "u")
 		{
-			world->player->Go(final_direc[0]);
+			world->player->Go(commands[0]);
 			break;
 		}
-		if (final_direc[0] == "down" || final_direc[0] == "d")
+		if (commands[0] == "down" || commands[0] == "d")
 		{
-			world->player->Go(final_direc[0]);
+			world->player->Go(commands[0]);
 			break;
 		}
 
 
 		//With 2 words input
 
-		else if (final_direc.Size() > 1 && (final_direc[0] == "go" || final_direc[0] == "g"))
+		else if (commands.Size() > 1 && (commands[0] == "go" || commands[0] == "g"))
 		{
-			world->player->Go(final_direc[1]);
+			world->player->Go(commands[1]);
 			break;
 		}
 
@@ -146,13 +149,12 @@ int main() {
 		//If the user introduces invalid action
 		else
 		{
-			printf("I don't understand\n");
+			printf("I don't understand\n\n");
 		}
 
 
 	}
 
-	system("pause");
 	return 0;
 }
 

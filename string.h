@@ -34,8 +34,7 @@ public:
 	char return_word(const int& number) const;
 	void tolower_method();
 	int const spaces() const;
-	//void Token(String &str, Vector<String> &strings);
-	void String::TokenizeString(char*, Vector<String>&);
+	const Vector<String> Divide(const char*, char*); // New tokenize
 	~String();
 };
 

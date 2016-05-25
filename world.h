@@ -24,7 +24,6 @@ public:
 	void CreatePlayer() const;
 	void CreateWorld();
 
-	Vector<String> Mayus(String&);
 	
 	int Item_verification(const String&);
 	void Look(const String&);
