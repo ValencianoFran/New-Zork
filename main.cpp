@@ -89,37 +89,32 @@ int main() {
 			}
 
 
-			/*
-			else if (final_direc.Size() > 1 && (final_direc[0] == "open" || final_direc[0] == "o"))
+		
+			else if (spaces > 0 && (commands[0] == "open" || commands[0] == "o"))
 			{
-			world->player->Open(final_direc[1]);
-			break;
+				world->player->Open(commands[1]);
 			}
-			else if (final_direc.Size() > 1 && (final_direc[0] == "close" || final_direc[0] == "c"))
+			else if (spaces > 0 && (commands[0] == "close" || commands[0] == "c"))
 			{
-			world->player->Close(final_direc[1]);
-			break;
+			world->player->Close(commands[1]);
 			}
-
+			
 			//Help
-			else if (final_direc[0] == "help" || final_direc[0] == "h")
+			else if (commands[0] == "help" || commands[0] == "h")
 			{
 			world->Tutorial();
-			break;
 			}
 
-			else if (final_direc[0] == "pick")
+			else if (commands[0] == "pick")
 			{
-			world->player->Pick(final_direc[1]);
-			break;
+				world->player->Pick(commands[1]);
 			}
 
-			else if (final_direc[0] == "drop")
+			else if (commands[0] == "drop")
 			{
-			world->player->Drop(final_direc[1]);
-			break;
+				world->player->Drop(commands[1]);
 			}
-
+			/*
 			else if (final_direc[0] == "inventory" || final_direc[0] == "inv" || final_direc[0] == "i")
 			{
 			world->player->Inventory();

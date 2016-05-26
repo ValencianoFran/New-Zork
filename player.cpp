@@ -165,7 +165,7 @@ int Player::Item_verification(const String& item)
 	return INVALID;
 }
 
-/*
+
 
 void Player::Open(const String& op) //Open doors
 {
@@ -180,16 +180,16 @@ void Player::Open(const String& op) //Open doors
 	}
 	else
 	{
-		for (i = 0; i < NUM_EXITS; i++)
+		for (i = 0; i < world->entity.Size(); i++)
 		{
 
-			if (exit[i]->origin->name == player->position->name) //Compares the player position with the origin room of the exit
+			if (((Exit*)world->entity[i])->origin == position) //Compares the player position with the origin room of the exit
 			{
-				if (exit[i]->direction == direc)
+				if (((Exit*)world->entity[i])->direction == direc)
 				{
-					if (exit[i]->close == true)
+					if (((Exit*)world->entity[i])->close == true)
 					{		// If the door is closed, open it
-						exit[i]->close = false;
+						((Exit*)world->entity[i])->close = false;
 						printf("\nThe door is open\n");
 						done = true;
 						break;
@@ -209,7 +209,7 @@ void Player::Open(const String& op) //Open doors
 	}
 }
 
-void World::Close(const String& op) //Close doors, same function of Open, but it closes the door
+void Player::Close(const String& op) //Similar function of Open, but it closes the door
 {
 	int direc = INVALID;
 	int i = 0;
@@ -223,16 +223,15 @@ void World::Close(const String& op) //Close doors, same function of Open, but it
 	}
 	else
 	{
-		for (i = 0; i < NUM_EXITS; i++)
+		for (i = 0; i < world->entity.Size(); i++)
 		{
-
-			if (exit[i]->origin->name == player->position->name)
+			if (((Exit*)world->entity[i])->origin == position)
 			{
-				if (exit[i]->direction == direc)
+				if (((Exit*)world->entity[i])->direction == direc)
 				{
-					if (exit[i]->close == true)
+					if (((Exit*)world->entity[i])->close == false)
 					{
-						exit[i]->close = false;
+						((Exit*)world->entity[i])->close = true;
 						printf("The door is closed\n");
 						finish = true;
 						break;
@@ -251,7 +250,7 @@ void World::Close(const String& op) //Close doors, same function of Open, but it
 	}
 }
 
-
+/*
 void Player::Inventory()
 {
 	int done = 0;
@@ -270,10 +269,10 @@ void Player::Inventory()
 	}
 	return;
 }
+*/
 
 
-
-
+/*
 void Player::Pick(const String& _item)
 {
 	int item_comprovant = INVALID;
