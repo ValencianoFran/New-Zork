@@ -182,29 +182,31 @@ public:
 		return false;
 	}
 
-	bool erase(Node* node_erase)
+	void erase(Node* toerase)
 	{
-		if (first != nullptr && node_erase != nullptr)
+		if (size() > 1)
 		{
-			Node* copy = first;
-			if (node_erase == first)
+			if (toerase->previous == nullptr)
 			{
-				first = first->next;
-				delete node_erase;
-				return true;
+				first = toerase->next;
+				first->previous = nullptr;
+			}
+			else if (toerase->next == nullptr)
+			{
+				toerase->previous->next = nullptr;
 			}
 			else
 			{
-				while (copy->next != node_erase)
-				{
-					copy = copy->next;
-				}
-				copy->next = node_erase->next;
-				delete node_erase;
-				return true;
+				toerase->previous->next = toerase->next;
+				toerase->next->previous = toerase->previous;
 			}
+			delete toerase;
 		}
-		return false;
+		else
+		{
+			first = nullptr;
+			delete toerase;
+		}
 	}
 
 	bool insert(const Node* node_insert, int data)

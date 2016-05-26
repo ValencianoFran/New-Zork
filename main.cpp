@@ -10,6 +10,7 @@ World* world = nullptr;
 int main() {
 	fflush(stdin);
 	world = new World;
+	Items item;
 	String action;
 	char direc[30];
 
@@ -23,6 +24,7 @@ int main() {
 	{
 		printf("- ");
 		gets_s(direc, 30);
+		
 		if (direc != " " && direc != NULL)
 		{
 			action = direc;
@@ -117,7 +119,7 @@ int main() {
 			
 			else if (commands[0] == "inventory" || commands[0] == "inv" || commands[0] == "i")
 			{
-			world->player->Inventory();
+				world->Inventory();
 			}
 
 			else if (commands[0] == "equip")
@@ -129,20 +131,17 @@ int main() {
 			{
 				world->player->Unequip(commands[1]);
 			}
-			/*
-			else if (final_direc[0] == "put" && final_direc[2] == "into")
+			
+			else if (commands[0] == "put" && commands[2] == "into")
 			{
-			world->player->Put(final_direc[1], final_direc[3]);
-			break;
+				world->player->Put(commands[1], commands[3]);
 			}
 
-			else if (final_direc[0] == "get" && final_direc[2] == "from")
+			else if (commands[0] == "get" && commands[2] == "from")
 			{
-			world->player->Get(final_direc[1], final_direc[3]);
-			break;
+				world->player->Get(commands[1], commands[3]);
 			}
-			*/
-			//If the user introduces invalid action
+			//If the user introduces invalid command
 			else
 			{
 				printf("I don't understand\n\n");

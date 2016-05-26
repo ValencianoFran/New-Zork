@@ -8,6 +8,7 @@ Items::Items(const char* name, const char* description, Room* place, const int& 
 {}
 
 
+
 void Items::Look()const
 {
 	printf("%s\n%s\n", name.c_str(), description.c_str()); 

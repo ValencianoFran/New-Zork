@@ -1,4 +1,5 @@
 #include "world.h"
+#include "dlist.h"
 
 #define INVALID -1
 
@@ -247,30 +248,10 @@ void Player::Close(const String& op) //Similar function of Open, but it closes t
 	}
 }
 
-/*
-void Player::Inventory()
-{
-	int done = 0;
-	printf("You have this items in the inventory:\n");
-	for (int j = 0; j <= 9; j++)
-	{
-		if (item[j]->picked == true && item[j]->equipped == false)
-		{
-			printf("%s\n", item[j]->name.c_str());
-			done = 1;
-		}
-	}
-	if (done == 0)
-	{
-		printf("You don't have items yet\n");
-	}
-	return;
-}
-*/
-
 void Player::Pick(const String& item)
 {
 	int item_comprovant = INVALID;
+	int j = ITEM_VEC;
 	if (num_items >= bag_capacity)
 	{
 		printf("The bag is full\n");
@@ -285,21 +266,24 @@ void Player::Pick(const String& item)
 	}
 
 
-	for (int j = 0; j < world->entity.Size(); j++)
+	if (position->list.first != nullptr)
 	{
-		if (((Items*)world->entity[j])->name == item && ((Items*)world->entity[j])->place == position)
+		Dlist<Entity*>::Node* mylist = position->list.first;
+		for (; mylist != nullptr; mylist = mylist->next)
 		{
-			if (((Items*)world->entity[j])->picked == false && ((Items*)world->entity[j])->equipped == false && ((Items*)world->entity[j])->already_inside == false)
+			if (mylist->data->name == item)
 			{
-				((Items*)world->entity[j])->picked = true;
-				printf("You picked %s\n", ((Items*)world->entity[j])->name.c_str());
+				printf("You picked %s\n", mylist->data->name.c_str());
+				list.push_back(mylist->data);
+				position->list.erase(mylist);
 				return;
 			}
-			if (((Items*)world->entity[j])->picked == false && ((Items*)world->entity[j])->equipped == false && ((Items*)world->entity[j])->already_inside == true)
-			{
-				printf("You must get the item from the container\n");
-			}
 		}
+	}
+	else
+	{
+		printf("That item is not here %s\n");
+		return;
 	}
 
 	printf("You have already picked that item or it isn't here\n");
@@ -309,6 +293,13 @@ void Player::Pick(const String& item)
 void Player::Drop(const String& item)
 {
 	int item_comprovant = INVALID;
+	int j = ITEM_VEC;
+	if (num_items >= bag_capacity)
+	{
+		printf("The bag is full\n");
+		return;
+	}
+
 	item_comprovant = Item_verification(item);
 	if (item_comprovant == INVALID)
 	{
@@ -316,15 +307,17 @@ void Player::Drop(const String& item)
 		return;
 	}
 
-	for (int j = 0; j < world->entity.Size(); j++)
+
+	if (list.first != nullptr)
 	{
-		if (((Items*)world->entity[j])->name == item)
+		Dlist<Entity*>::Node* mylist = list.first;
+		for (; mylist != nullptr; mylist = mylist->next)
 		{
-			if (((Items*)world->entity[j])->picked == true && ((Items*)world->entity[j])->equipped == false)
+			if (mylist->data->name == item)
 			{
-				((Items*)world->entity[j])->picked = false;
-				((Items*)world->entity[j])->place =position;
-				printf("You dropped %s\n", ((Items*)world->entity[j])->name.c_str());
+				printf("You dropped %s\n", mylist->data->name.c_str());
+				position->list.push_back(mylist->data);
+				list.erase(mylist);
 				return;
 			}
 		}
@@ -332,7 +325,6 @@ void Player::Drop(const String& item)
 
 	printf("You dont have that item in your inventary or It's equipped\n");
 	return;
-
 }
 
 void Player::Equip(const String& item)
@@ -344,60 +336,47 @@ void Player::Equip(const String& item)
 		printf("Thats a invalid item\n");
 		return;
 	}
-
-
-	for (int j = 0; j <= 9; j++)
+	
+	Dlist<Entity*>::Node* mylist = list.first;
+	for (; mylist != nullptr; mylist = mylist->next)
 	{
-		if (((Items*)world->entity[j])->name == item)
+		if (mylist->data->name == item)
 		{
-			if (((Items*)world->entity[j])->equipped == false && ((Items*)world->entity[j])->picked == true)
+			if (mylist->data->shape == Hand && hand == false)
 			{
-				if (((Items*)world->entity[j])->slot == Head && head == false)
-				{
-					((Items*)world->entity[j])->equipped = true;
-					((Items*)world->entity[j])->picked = false;
-					head = true;
-					printf("You equiped %s\n", ((Items*)world->entity[j])->name.c_str());
-					return;
-				}
-				if (((Items*)world->entity[j])->slot == Hand && hand == false)
-				{
-					((Items*)world->entity[j])->equipped = true;
-					((Items*)world->entity[j])->picked = false;
-					hand = true;
-					printf("You equiped %s\n", ((Items*)world->entity[j])->name.c_str());
-					return;
-				}
-
-				if (((Items*)world->entity[j])->slot == Drive && drive == false)
-				{
-					((Items*)world->entity[j])->equipped = true;
-					((Items*)world->entity[j])->picked = false;
-					drive = true;
-					printf("You equiped %s\n", ((Items*)world->entity[j])->name.c_str());
-					return;
-				}
-
+				printf("You equiped %s\n", mylist->data->name.c_str());
+				hand = true;
+				return;
 			}
-
-			else
+			if (mylist->data->shape == Head && head == false)
 			{
-				if (((Items*)world->entity[j])->slot == Head &&  head == true)
-				{
-					printf("Your head is actually equiped\n");
-				}
-				if (((Items*)world->entity[j])->slot == Hand && hand == true)
-				{
-					printf("Actually your hand is equiped\n");
-				}
-				if (((Items*)world->entity[j])->slot == Drive && drive == true)
-				{
-					printf("Actually you have transport\n");
-				}
-				else
-				{
-					printf("You can't equip that item or you don't have it in the inventory\n");
-				}
+				printf("You equiped %s\n", mylist->data->name.c_str());
+				head = true;
+				return;
+			}
+			if (mylist->data->shape == Drive && drive == false)
+			{
+				printf("You equiped %s\n", mylist->data->name.c_str());
+				drive = true;
+				return;
+			}
+		}
+
+		else
+		{
+			if (mylist->data->shape == Hand && hand == true)
+			{
+				printf("Your hand is actually equiped\n");
+				return;
+			}
+			if (mylist->data->shape == Head && head == true)
+			{
+				printf("Your head is actually equiped\n");
+				return;
+			}
+			if (mylist->data->shape == Drive && drive == true)
+			{
+				printf("You already have transport\n");
 				return;
 			}
 		}
@@ -406,6 +385,7 @@ void Player::Equip(const String& item)
 
 void Player::Unequip(const String& item)
 {
+
 	int item_comprovant = INVALID;
 	item_comprovant = Item_verification(item);
 	if (item_comprovant == INVALID)
@@ -414,168 +394,129 @@ void Player::Unequip(const String& item)
 		return;
 	}
 
-	for (int j = 0; j <= 9; j++)
+	Dlist<Entity*>::Node* mylist = list.first;
+	for (; mylist != nullptr; mylist = mylist->next)
 	{
-		if (((Items*)world->entity[j])->name == item)
+		if (mylist->data->name == item)
 		{
-			if (((Items*)world->entity[j])->equipped == true)
+			if (mylist->data->shape == Hand && hand == true)
 			{
-				if (((Items*)world->entity[j])->slot == Head && head == true)
-				{
-					((Items*)world->entity[j])->equipped = false;
-					((Items*)world->entity[j])->picked = true;
-					head = false;
-					printf("You unequipped %s\n", ((Items*)world->entity[j])->name.c_str());
-					return;
-				}
-				if (((Items*)world->entity[j])->slot == Hand && hand == true)
-				{
-					((Items*)world->entity[j])->equipped = false;
-					((Items*)world->entity[j])->picked = true;
-					hand = false;
-					printf("You unequipped %s\n", ((Items*)world->entity[j])->name.c_str());
-					return;
-				}
-
-				if (((Items*)world->entity[j])->slot == Drive && drive == true)
-				{
-					((Items*)world->entity[j])->equipped = false;
-					((Items*)world->entity[j])->picked = true;
-					drive = false;
-					printf("You unequipped %s\n", ((Items*)world->entity[j])->name.c_str());
-					return;
-				}
+				printf("You unequiped %s\n", mylist->data->name.c_str());
+				hand = false;
+				return;
 			}
-			else
+			if (mylist->data->shape == Head && head == true)
 			{
-				printf("You don't have equiped that item\n");
+				printf("You equiped %s\n", mylist->data->name.c_str());
+				head = false;
+				return;
+			}
+			if (mylist->data->shape == Drive && drive == true)
+			{
+				printf("You equiped %s\n", mylist->data->name.c_str());
+				drive = false;
+				return;
+			}
+		}
+
+		else
+		{
+			if (mylist->data->shape == Hand && hand == false)
+			{
+				printf("Your hand isn't actually equiped\n"));
+				return;
+			}
+			if (mylist->data->shape == Head && head == false)
+			{
+				printf("Your head isn't actually equiped\n");
+				return;
+			}
+			if (mylist->data->shape == Drive && drive == false)
+			{
+				printf("You don't have transport\n");
 				return;
 			}
 		}
 	}
 }
 
-/*
-void Player::Put(const String& _put, const String& _into)
+void Player::Put(const String& put, const String& into)
 {
-	int finish = 0;
+	bool finish = false;
 	int item_comprovant1 = INVALID;
 	int item_comprovant2 = INVALID;
-	item_comprovant1 = Item_verification(_put);
-	item_comprovant2 = Item_verification(_into);
+	item_comprovant1 = Item_verification(put);
+	item_comprovant2 = Item_verification(into);
 	if (item_comprovant1 == INVALID || item_comprovant2 == INVALID)
 	{
 		printf("Thats a invalid item\n");
 		return;
 	}
 
-	for (int i = 0; i <= 9; i++)
+	for (int i = ITEM_VEC; i < world->entity.Size(); i++)
 	{
-		for (int j = 0; j <= 9; j++)
+		for (int j = ITEM_VEC; j < world->entity.Size(); j++)
 		{
-			if (_put == item[i]->name && item[i]->inside == true && _into == item[j]->name && item[j]->container == true)
+			if (put == ((Items*)world->entity[i])->name && ((Items*)world->entity[i])->inside == true && into == ((Items*)world->entity[j])->name && ((Items*)world->entity[j])->container == true && ((Items*)world->entity[i])->already_inside == false)
 			{
-				if (_put == item[1]->name && _into == item[3]->name && item[1]->already_inside == false && item[1]->picked == true && item[3]->picked == true)
-				{
-					item[3]->chst.push_back(item[1]); //Olyster only can contain pearl
-					item[1]->equipped = false;
-					item[1]->picked = false;
-					item[1]->already_inside = true;
-					printf("You put %s into %s\n", item[1]->name.c_str(), item[3]->name.c_str());
-					return;
-				}
-
-				if (_put == item[5]->name && _into == item[7]->name && item[5]->already_inside == false && item[5]->picked == true && item[7]->picked == true)
-				{
-					item[7]->chst.push_back(item[5]); //Olyster only can contain pearl
-					item[5]->equipped = false;
-					item[5]->picked = false;
-					item[5]->already_inside = true;
-					printf("You put %s into %s\n", item[5]->name.c_str(), item[7]->name.c_str());
-					return;
-				}
-
-				if (item[5]->name != _put && item[1]->name != _put && item[i]->already_inside == false && item[i]->picked == true && item[j]->picked == true)
-				{
-					item[j]->chst.push_back(item[i]);
-					item[i]->equipped = false;
-					item[i]->picked = false;
-					item[i]->already_inside = true;
-					printf("You put %s into %s\n", item[i]->name.c_str(), item[j]->name.c_str());
-					return;
-				}
+				((Items*)world->entity[j])->chest.push_back(((Items*)world->entity[i]));
+				((Items*)world->entity[i])->equipped = false;
+				((Items*)world->entity[i])->picked = false;
+				((Items*)world->entity[i])->already_inside = true;
+				printf("You put %s into %s\n", ((Items*)world->entity[i])->name.c_str(), ((Items*)world->entity[j])->name.c_str());
+				finish = true;
+				return;
 			}
 		}
-
 	}
 
-	if (finish == 0)
+	if (finish == false)
 	{
-		printf("You can't put that item inside because It is not his correct place or It already is inside\n");
+		printf("You can't put that item inside because It is not his correct place or It is already inside\n");
 		return;
 	}
 
 }
 
-void Player::Get(const String& _get, const String& _from)
+void Player::Get(const String& get, const String& from)
 {
-	int finish = 0;
+	bool finish = false;
 	int item_comprovant1 = INVALID;
 	int item_comprovant2 = INVALID;
-	item_comprovant1 = Item_verification(_get);
-	item_comprovant2 = Item_verification(_from);
+	item_comprovant1 = Item_verification(get);
+	item_comprovant2 = Item_verification(from);
 	if (item_comprovant1 == INVALID || item_comprovant2 == INVALID)
 	{
 		printf("Thats a invalid item\n");
 		return;
 	}
 
-	for (int i = 0; i <= 9; i++)
+	for (int i = ITEM_VEC; i < world->entity.Size(); i++)
 	{
-		for (int j = 0; j <= 9; j++)
+		for (int j = ITEM_VEC; j < world->entity.Size(); j++)
 		{
-			if (_get == item[i]->name && item[i]->inside == true && _from == item[j]->name && item[j]->container == true)
+			if (get == ((Items*)world->entity[i])->name && ((Items*)world->entity[i])->inside == true && from == ((Items*)world->entity[j])->name && ((Items*)world->entity[j])->container == true && ((Items*)world->entity[i])->already_inside == true)
 			{
-				if (_get == item[1]->name && _from == item[3]->name && item[1]->picked == false && item[3]->picked == true && item[1]->already_inside == true)
-				{
-					item[1]->equipped = false;
-					item[1]->picked = true;
-					item[1]->already_inside = false;
-					printf("You get %s from %s\n", item[1]->name.c_str(), item[3]->name.c_str());
-					return;
-				}
-
-				if (_get == item[5]->name && _from == item[7]->name && item[5]->already_inside == true && item[5]->picked == false && item[7]->picked == true)
-				{
-					item[5]->equipped = false;
-					item[5]->picked = true;
-					item[5]->already_inside = false;
-					printf("You get %s from %s\n", item[5]->name.c_str(), item[7]->name.c_str());
-					return;
-				}
-
-				if (item[5]->name != _get && item[1]->name != _get && item[i]->picked == false && item[j]->picked == true)
-				{
-					item[j]->chst.push_back(item[i]);
-					item[i]->equipped = false;
-					item[i]->picked = true;
-					item[1]->already_inside = false;
-					printf("You get %s from %s\n", item[i]->name.c_str(), item[j]->name.c_str());
-					return;
-				}
+				((Items*)world->entity[j])->chest.pop_back();
+				((Items*)world->entity[i])->equipped = false;
+				((Items*)world->entity[i])->picked = true;
+				((Items*)world->entity[i])->already_inside = false;
+				printf("You get %s from %s\n", ((Items*)world->entity[i])->name.c_str(), ((Items*)world->entity[j])->name.c_str());
+				finish = true;
+				return;
 			}
 		}
 
 	}
 
-	if (finish == 0)
+	if (finish == false)
 	{
 		printf("You can't get that item from it\n");
 		return;
 	}
 
 }
-*/
+
 
 Player::~Player()
 {}

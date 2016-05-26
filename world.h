@@ -9,6 +9,8 @@
 #include "vector.h"
 #include "items.h"
 
+#define ITEM_VEC 25
+
 class Items;
 class Player;
 
@@ -22,6 +24,7 @@ public:
 	~World();
 	void Tutorial() const;
 	void CreatePlayer() const;
+	void Inventory();
 	void CreateWorld();
 
 };

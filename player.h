@@ -35,7 +35,6 @@ public:
 	void Unequip(const String&);
 	void Put(const String&, const String&);
 	void Get(const String&, const String&);
-	void Inventory();
 	~Player();
 };
 

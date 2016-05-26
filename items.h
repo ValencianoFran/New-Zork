@@ -20,7 +20,7 @@ class Items : public Entity
 {
 public:
 
-	Vector<Items*> chst; // List of items that this item can contain
+	Vector<Items*> chest; // List of items that this item can contain
 	Room* place;
 	bool container = false; //This item can contain more items
 	bool inside = false; //This item can be inside another
