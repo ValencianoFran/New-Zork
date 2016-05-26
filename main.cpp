@@ -114,25 +114,22 @@ int main() {
 			{
 				world->player->Drop(commands[1]);
 			}
-			/*
-			else if (final_direc[0] == "inventory" || final_direc[0] == "inv" || final_direc[0] == "i")
+			
+			else if (commands[0] == "inventory" || commands[0] == "inv" || commands[0] == "i")
 			{
 			world->player->Inventory();
-			break;
 			}
 
-			else if (final_direc[0] == "equip")
+			else if (commands[0] == "equip")
 			{
-			world->player->Equip(final_direc[1]);
-			break;
+				world->player->Equip(commands[1]);
 			}
 
-			else if (final_direc[0] == "unequip")
+			else if (commands[0] == "unequip")
 			{
-			world->player->Unequip(final_direc[1]);
-			break;
+				world->player->Unequip(commands[1]);
 			}
-
+			/*
 			else if (final_direc[0] == "put" && final_direc[2] == "into")
 			{
 			world->player->Put(final_direc[1], final_direc[3]);

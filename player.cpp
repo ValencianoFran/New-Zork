@@ -268,8 +268,6 @@ void Player::Inventory()
 }
 */
 
-
-
 void Player::Pick(const String& item)
 {
 	int item_comprovant = INVALID;
@@ -308,10 +306,10 @@ void Player::Pick(const String& item)
 	return;
 }
 
-void Player::Drop(const String& _item)
+void Player::Drop(const String& item)
 {
 	int item_comprovant = INVALID;
-	item_comprovant = Item_verification(_item);
+	item_comprovant = Item_verification(item);
 	if (item_comprovant == INVALID)
 	{
 		printf("Thats a invalid item\n");
@@ -320,7 +318,7 @@ void Player::Drop(const String& _item)
 
 	for (int j = 0; j < world->entity.Size(); j++)
 	{
-		if (((Items*)world->entity[j])->name == _item)
+		if (((Items*)world->entity[j])->name == item)
 		{
 			if (((Items*)world->entity[j])->picked == true && ((Items*)world->entity[j])->equipped == false)
 			{
@@ -336,11 +334,11 @@ void Player::Drop(const String& _item)
 	return;
 
 }
-/*
-void Player::Equip(const String& _item)
+
+void Player::Equip(const String& item)
 {
 	int item_comprovant = INVALID;
-	item_comprovant = Item_verification(_item);
+	item_comprovant = Item_verification(item);
 	if (item_comprovant == INVALID)
 	{
 		printf("Thats a invalid item\n");
@@ -350,33 +348,33 @@ void Player::Equip(const String& _item)
 
 	for (int j = 0; j <= 9; j++)
 	{
-		if (item[j]->name == _item)
+		if (((Items*)world->entity[j])->name == item)
 		{
-			if (item[j]->equipped == false && item[j]->picked == true)
+			if (((Items*)world->entity[j])->equipped == false && ((Items*)world->entity[j])->picked == true)
 			{
-				if (item[j]->slot == 0 && player->head == false)
+				if (((Items*)world->entity[j])->slot == Head && head == false)
 				{
-					item[j]->equipped = true;
-					item[j]->picked = false;
-					player->head = true;
-					printf("You equiped %s\n", item[j]->name.c_str());
+					((Items*)world->entity[j])->equipped = true;
+					((Items*)world->entity[j])->picked = false;
+					head = true;
+					printf("You equiped %s\n", ((Items*)world->entity[j])->name.c_str());
 					return;
 				}
-				if (item[j]->slot == 1 && player->hand == false)
+				if (((Items*)world->entity[j])->slot == Hand && hand == false)
 				{
-					item[j]->equipped = true;
-					item[j]->picked = false;
-					player->hand = true;
-					printf("You equiped %s\n", item[j]->name.c_str());
+					((Items*)world->entity[j])->equipped = true;
+					((Items*)world->entity[j])->picked = false;
+					hand = true;
+					printf("You equiped %s\n", ((Items*)world->entity[j])->name.c_str());
 					return;
 				}
 
-				if (item[j]->slot == 3 && player->drive == false)
+				if (((Items*)world->entity[j])->slot == Drive && drive == false)
 				{
-					item[j]->equipped = true;
-					item[j]->picked = false;
-					player->drive = true;
-					printf("You equiped %s\n", item[j]->name.c_str());
+					((Items*)world->entity[j])->equipped = true;
+					((Items*)world->entity[j])->picked = false;
+					drive = true;
+					printf("You equiped %s\n", ((Items*)world->entity[j])->name.c_str());
 					return;
 				}
 
@@ -384,15 +382,15 @@ void Player::Equip(const String& _item)
 
 			else
 			{
-				if (item[j]->slot == 0 && player->head == true)
+				if (((Items*)world->entity[j])->slot == Head &&  head == true)
 				{
-					printf("Actually your head is equiped\n");
+					printf("Your head is actually equiped\n");
 				}
-				if (item[j]->slot == 1 && player->hand == true)
+				if (((Items*)world->entity[j])->slot == Hand && hand == true)
 				{
 					printf("Actually your hand is equiped\n");
 				}
-				if (item[j]->slot == 3 && player->drive == true)
+				if (((Items*)world->entity[j])->slot == Drive && drive == true)
 				{
 					printf("Actually you have transport\n");
 				}
@@ -406,10 +404,10 @@ void Player::Equip(const String& _item)
 	}
 }
 
-void Player::Unequip(const String& _item)
+void Player::Unequip(const String& item)
 {
 	int item_comprovant = INVALID;
-	item_comprovant = Item_verification(_item);
+	item_comprovant = Item_verification(item);
 	if (item_comprovant == INVALID)
 	{
 		printf("Thats a invalid item\n");
@@ -418,33 +416,33 @@ void Player::Unequip(const String& _item)
 
 	for (int j = 0; j <= 9; j++)
 	{
-		if (item[j]->name == _item)
+		if (((Items*)world->entity[j])->name == item)
 		{
-			if (item[j]->equipped == true)
+			if (((Items*)world->entity[j])->equipped == true)
 			{
-				if (item[j]->slot == 0 && player->head == true)
+				if (((Items*)world->entity[j])->slot == Head && head == true)
 				{
-					item[j]->equipped = false;
-					item[j]->picked = true;
-					player->head = false;
-					printf("You unequipped %s\n", item[j]->name.c_str());
+					((Items*)world->entity[j])->equipped = false;
+					((Items*)world->entity[j])->picked = true;
+					head = false;
+					printf("You unequipped %s\n", ((Items*)world->entity[j])->name.c_str());
 					return;
 				}
-				if (item[j]->slot == 1 && player->hand == true)
+				if (((Items*)world->entity[j])->slot == Hand && hand == true)
 				{
-					item[j]->equipped = false;
-					item[j]->picked = true;
-					player->hand = false;
-					printf("You unequipped %s\n", item[j]->name.c_str());
+					((Items*)world->entity[j])->equipped = false;
+					((Items*)world->entity[j])->picked = true;
+					hand = false;
+					printf("You unequipped %s\n", ((Items*)world->entity[j])->name.c_str());
 					return;
 				}
 
-				if (item[j]->slot == 3 && player->drive == true)
+				if (((Items*)world->entity[j])->slot == Drive && drive == true)
 				{
-					item[j]->equipped = false;
-					item[j]->picked = true;
-					player->drive = false;
-					printf("You unequipped %s\n", item[j]->name.c_str());
+					((Items*)world->entity[j])->equipped = false;
+					((Items*)world->entity[j])->picked = true;
+					drive = false;
+					printf("You unequipped %s\n", ((Items*)world->entity[j])->name.c_str());
 					return;
 				}
 			}
@@ -457,6 +455,7 @@ void Player::Unequip(const String& _item)
 	}
 }
 
+/*
 void Player::Put(const String& _put, const String& _into)
 {
 	int finish = 0;
