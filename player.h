@@ -16,7 +16,7 @@ public:
 	int damage = 10;
 
 	unsigned int num_items = 0;
-	unsigned int bag_capacity = 10;
+	unsigned int bag_capacity = 5;
 
 	Room* position;
 

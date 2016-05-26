@@ -56,7 +56,6 @@ void Player::Go(const String& op) //Move player
 		}
 }
 
-
 int Player::Direction(const String& op) //Check the direction is valid
 {
 
@@ -102,9 +101,9 @@ void Player::Look(const String& op) //Look the exit
 		
 		for (j = 0; j < world->entity.Size(); j++)
 		{
-			if (((Items*)world->entity[i])->place == position && ((Items*)world->entity[i])->picked == false && ((Items*)world->entity[i])->equipped == false && ((Items*)world->entity[i])->already_inside == false)
+			if (world->entity[j]->shape == ITEM && ((Items*)world->entity[j])->place == position && ((Items*)world->entity[j])->picked == false && ((Items*)world->entity[j])->equipped == false && ((Items*)world->entity[j])->already_inside == false)
 			{
-				((Items*)world->entity[i])->Look();
+				printf("%s:\t%s\n", ((Items*)world->entity[j])->name.c_str(), ((Items*)world->entity[j])->description.c_str());
 				saw_items++;
 			}
 		}
@@ -164,8 +163,6 @@ int Player::Item_verification(const String& item)
 	}
 	return INVALID;
 }
-
-
 
 void Player::Open(const String& op) //Open doors
 {
@@ -272,17 +269,17 @@ void Player::Inventory()
 */
 
 
-/*
-void Player::Pick(const String& _item)
+
+void Player::Pick(const String& item)
 {
 	int item_comprovant = INVALID;
-	if (player->num_items >= player->bag_capacity)
+	if (num_items >= bag_capacity)
 	{
 		printf("The bag is full\n");
 		return;
 	}
 
-	item_comprovant = Item_verification(_item);
+	item_comprovant = Item_verification(item);
 	if (item_comprovant == INVALID)
 	{
 		printf("Thats a invalid item\n");
@@ -290,17 +287,17 @@ void Player::Pick(const String& _item)
 	}
 
 
-	for (int j = 0; j <= 9; j++)
+	for (int j = 0; j < world->entity.Size(); j++)
 	{
-		if (item[j]->name == _item && item[j]->place == player->position)
+		if (((Items*)world->entity[j])->name == item && ((Items*)world->entity[j])->place == position)
 		{
-			if (item[j]->picked == false && item[j]->equipped == false && item[j]->already_inside == false)
+			if (((Items*)world->entity[j])->picked == false && ((Items*)world->entity[j])->equipped == false && ((Items*)world->entity[j])->already_inside == false)
 			{
-				item[j]->picked = true;
-				printf("You picked %s\n", item[j]->name.c_str());
+				((Items*)world->entity[j])->picked = true;
+				printf("You picked %s\n", ((Items*)world->entity[j])->name.c_str());
 				return;
 			}
-			if (item[j]->picked == false && item[j]->equipped == false && item[j]->already_inside == true)
+			if (((Items*)world->entity[j])->picked == false && ((Items*)world->entity[j])->equipped == false && ((Items*)world->entity[j])->already_inside == true)
 			{
 				printf("You must get the item from the container\n");
 			}
@@ -321,15 +318,15 @@ void Player::Drop(const String& _item)
 		return;
 	}
 
-	for (int j = 0; j <= 9; j++)
+	for (int j = 0; j < world->entity.Size(); j++)
 	{
-		if (item[j]->name == _item)
+		if (((Items*)world->entity[j])->name == _item)
 		{
-			if (item[j]->picked == true && item[j]->equipped == false)
+			if (((Items*)world->entity[j])->picked == true && ((Items*)world->entity[j])->equipped == false)
 			{
-				item[j]->picked = false;
-				item[j]->place = player->position;
-				printf("You dropped %s\n", item[j]->name.c_str());
+				((Items*)world->entity[j])->picked = false;
+				((Items*)world->entity[j])->place =position;
+				printf("You dropped %s\n", ((Items*)world->entity[j])->name.c_str());
 				return;
 			}
 		}
@@ -339,7 +336,7 @@ void Player::Drop(const String& _item)
 	return;
 
 }
-
+/*
 void Player::Equip(const String& _item)
 {
 	int item_comprovant = INVALID;
