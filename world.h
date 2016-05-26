@@ -24,11 +24,6 @@ public:
 	void CreatePlayer() const;
 	void CreateWorld();
 
-	
-	int Item_verification(const String&);
-	void Look(const String&);
-	
-
 };
 extern World* world;
 

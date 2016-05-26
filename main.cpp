@@ -3,7 +3,9 @@
 #include<stdlib.h>
 #include<string.h>
 
+#define INVALID -1
 World* world = nullptr;
+
 
 int main() {
 	fflush(stdin);
@@ -21,140 +23,143 @@ int main() {
 	{
 		printf("- ");
 		gets_s(direc, 30);
-		action = direc;
-		action.tolower_method();
-		Vector<String> commands = action.Divide(" ", direc);
-		if (commands[0] == "quit" || commands[0] == "q")
+		if (direc != " " && direc != NULL)
 		{
-			break;
-		}
+			action = direc;
+			action.tolower_method();
+			int spaces = action.spaces();
+			Vector<String> commands = action.Divide(" ", direc);
 
-		if (commands[0] == "north" || commands[0] == "n")
-		{
-			world->player->Go(commands[0]);
-			break;
-		}
-		if (commands[0] == "south" || commands[0] == "s")
-		{
-			world->player->Go(commands[0]);
-			break;
-		}
-
-		if (commands[0] == "east" || commands[0] == "e")
-		{
-			world->player->Go(commands[0]);
-			break;
-		}
-		if (commands[0] == "west" || commands[0] == "w")
-		{
-			world->player->Go(commands[0]);
-			break;
-		}
-		if (commands[0] == "up" || commands[0] == "u")
-		{
-			world->player->Go(commands[0]);
-			break;
-		}
-		if (commands[0] == "down" || commands[0] == "d")
-		{
-			world->player->Go(commands[0]);
-			break;
-		}
-
-
-		//With 2 words input
-
-		else if (commands.Size() > 1 && (commands[0] == "go" || commands[0] == "g"))
-		{
-			world->player->Go(commands[1]);
-			break;
-		}
-
-		/*else if (final_direc[0] == "look" || final_direc[0] == "l")
-		{
-			if (space == 0)
+			if (commands[0] == "quit" || commands[0] == "q")
 			{
-				Look(act[0]);
-				return;
+				break;
 			}
-			else
+
+			if (commands[0] == "north" || commands[0] == "n")
 			{
-				Look(act[1]);
-				return;
+				world->player->Go(commands[0]);
 			}
-		}*/
+			if (commands[0] == "south" || commands[0] == "s")
+			{
+				world->player->Go(commands[0]);
+			}
+
+			if (commands[0] == "east" || commands[0] == "e")
+			{
+				world->player->Go(commands[0]);
+			}
+			if (commands[0] == "west" || commands[0] == "w")
+			{
+				world->player->Go(commands[0]);
+			}
+			if (commands[0] == "up" || commands[0] == "u")
+			{
+				world->player->Go(commands[0]);
+			}
+			if (commands[0] == "down" || commands[0] == "d")
+			{
+				world->player->Go(commands[0]);
+			}
 
 
-		/*
-		else if (final_direc.Size() > 1 && (final_direc[0] == "open" || final_direc[0] == "o"))
-		{
+			//With 2 words input
+
+			if (commands.Size() > 1 && (commands[0] == "go" || commands[0] == "g"))
+			{
+				if (world->player->Direction(commands[1]) != INVALID)
+				{
+					world->player->Go(commands[1]);
+				}
+				else
+				{
+					printf("Thats not a valid direction\n");
+				}
+			}
+
+			if (commands[0] == "look" || commands[0] == "l")
+			{
+				if (spaces == 0)
+				{
+					world->player->Look(commands[0]);
+				}
+				else
+				{
+					world->player->Look(commands[1]);
+				}
+			}
+
+
+			/*
+			else if (final_direc.Size() > 1 && (final_direc[0] == "open" || final_direc[0] == "o"))
+			{
 			world->player->Open(final_direc[1]);
 			break;
-		}
-		else if (final_direc.Size() > 1 && (final_direc[0] == "close" || final_direc[0] == "c"))
-		{
+			}
+			else if (final_direc.Size() > 1 && (final_direc[0] == "close" || final_direc[0] == "c"))
+			{
 			world->player->Close(final_direc[1]);
 			break;
-		}
+			}
 
-		//Help
-		else if (final_direc[0] == "help" || final_direc[0] == "h")
-		{
+			//Help
+			else if (final_direc[0] == "help" || final_direc[0] == "h")
+			{
 			world->Tutorial();
 			break;
-		}
+			}
 
-		else if (final_direc[0] == "pick")
-		{
+			else if (final_direc[0] == "pick")
+			{
 			world->player->Pick(final_direc[1]);
 			break;
-		}
+			}
 
-		else if (final_direc[0] == "drop")
-		{
+			else if (final_direc[0] == "drop")
+			{
 			world->player->Drop(final_direc[1]);
 			break;
-		}
+			}
 
-		else if (final_direc[0] == "inventory" || final_direc[0] == "inv" || final_direc[0] == "i")
-		{
+			else if (final_direc[0] == "inventory" || final_direc[0] == "inv" || final_direc[0] == "i")
+			{
 			world->player->Inventory();
 			break;
-		}
+			}
 
-		else if (final_direc[0] == "equip")
-		{
+			else if (final_direc[0] == "equip")
+			{
 			world->player->Equip(final_direc[1]);
 			break;
-		}
+			}
 
-		else if (final_direc[0] == "unequip")
-		{
+			else if (final_direc[0] == "unequip")
+			{
 			world->player->Unequip(final_direc[1]);
 			break;
-		}
+			}
 
-		else if (final_direc[0] == "put" && final_direc[2] == "into")
-		{
+			else if (final_direc[0] == "put" && final_direc[2] == "into")
+			{
 			world->player->Put(final_direc[1], final_direc[3]);
 			break;
-		}
+			}
 
-		else if (final_direc[0] == "get" && final_direc[2] == "from")
-		{
+			else if (final_direc[0] == "get" && final_direc[2] == "from")
+			{
 			world->player->Get(final_direc[1], final_direc[3]);
 			break;
-		}
-		*/
-		//If the user introduces invalid action
-		else
-		{
-			printf("I don't understand\n\n");
-		}
+			}
+			*/
+			//If the user introduces invalid action
+			else
+			{
+				printf("I don't understand\n\n");
+			}
 
-
+		}
 	}
 
+	system("pause");
 	return 0;
 }
 

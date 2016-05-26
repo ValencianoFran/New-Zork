@@ -24,6 +24,8 @@ public:
 	Player(int&, int&, Room*);
 	void Stats();
 	void Go(const String&);
+	void Look(const String&);
+	int Item_verification(const String&);
 	int Direction(const String&);
 	void Close(const String&);
 	void Open(const String&);

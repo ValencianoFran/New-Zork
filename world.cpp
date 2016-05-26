@@ -24,7 +24,6 @@ World::~World()
 void World::CreatePlayer() const
 {
 	player->position = (Room*)entity[0];
-	player->Look();
 }
 
 
