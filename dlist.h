@@ -78,23 +78,23 @@ public:
 
 	}
 
+
 	void push_back(const TYPE& data)
 	{
-		if (first == nullptr)
+		Node* temp = first;
+		Node* node = new Node(data);
+		if (temp == nullptr)
 		{
-			first = new Node(data);
+			first = node;
 		}
 		else
 		{
-			Node* copy = first;
-			Node* temp = nullptr;
-			temp = new Node(data);
-			while (copy->next != nullptr)
+			while (temp->next != nullptr)
 			{
-				copy = copy->next;
+				temp = temp->next;
 			}
-			copy->previous = copy;
-			copy->next = temp;
+			temp->next = new_node;
+			node->previous = temp;
 		}
 	}
 
@@ -182,23 +182,23 @@ public:
 		return false;
 	}
 
-	void erase(Node* toerase)
+	void erase(Node* erase)
 	{
 		if (size() > 1)
 		{
-			if (toerase->previous == nullptr)
+			if (erase->previous == nullptr)
 			{
-				first = toerase->next;
+				first = erase->next;
 				first->previous = nullptr;
 			}
-			else if (toerase->next == nullptr)
+			else if (erase->next == nullptr)
 			{
-				toerase->previous->next = nullptr;
+				erase->previous->next = nullptr;
 			}
 			else
 			{
-				toerase->previous->next = toerase->next;
-				toerase->next->previous = toerase->previous;
+				erase->previous->next = toerase->next;
+				erase->next->previous = toerase->previous;
 			}
 			delete toerase;
 		}
@@ -208,7 +208,6 @@ public:
 			delete toerase;
 		}
 	}
-
 
 	bool insert(const Node* node_insert, int data)
 	{
