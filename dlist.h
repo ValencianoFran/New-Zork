@@ -209,6 +209,7 @@ public:
 		}
 	}
 
+
 	bool insert(const Node* node_insert, int data)
 	{
 		if (first != nullptr && node_insert != nullptr)

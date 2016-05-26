@@ -250,6 +250,7 @@ void Player::Close(const String& op) //Similar function of Open, but it closes t
 
 void Player::Pick(const String& item)
 {
+	int i = ITEM_VEC;
 	int item_comprovant = INVALID;
 	int j = ITEM_VEC;
 	if (num_items >= bag_capacity)
@@ -265,6 +266,8 @@ void Player::Pick(const String& item)
 		return;
 	}
 
+	for (i = ITEM_VEC; ((Items*)world->entity[i])->name != item && i <= world->entity.Size(); i++) //Use i value to know if the item is in a container
+	{}
 
 	if (position->list.first != nullptr)
 	{
@@ -273,16 +276,22 @@ void Player::Pick(const String& item)
 		{
 			if (mylist->data->name == item)
 			{
+				if (((Items*)world->entity[i])->already_inside == true)
+				{
+					printf("That item is inside another one\n");
+					return;
+				}
 				printf("You picked %s\n", mylist->data->name.c_str());
 				list.push_back(mylist->data);
 				position->list.erase(mylist);
+				num_items++;
 				return;
 			}
 		}
 	}
 	else
 	{
-		printf("That item is not here %s\n");
+		printf("That item is not here\n");
 		return;
 	}
 
@@ -315,9 +324,11 @@ void Player::Drop(const String& item)
 		{
 			if (mylist->data->name == item)
 			{
+				Unequip(item);
 				printf("You dropped %s\n", mylist->data->name.c_str());
 				position->list.push_back(mylist->data);
 				list.erase(mylist);
+				num_items--;
 				return;
 			}
 		}
@@ -407,13 +418,13 @@ void Player::Unequip(const String& item)
 			}
 			if (mylist->data->shape == Head && head == true)
 			{
-				printf("You equiped %s\n", mylist->data->name.c_str());
+				printf("You unequiped %s\n", mylist->data->name.c_str());
 				head = false;
 				return;
 			}
 			if (mylist->data->shape == Drive && drive == true)
 			{
-				printf("You equiped %s\n", mylist->data->name.c_str());
+				printf("You unequiped %s\n", mylist->data->name.c_str());
 				drive = false;
 				return;
 			}
@@ -423,7 +434,7 @@ void Player::Unequip(const String& item)
 		{
 			if (mylist->data->shape == Hand && hand == false)
 			{
-				printf("Your hand isn't actually equiped\n"));
+				printf("Your hand isn't actually equiped\n");
 				return;
 			}
 			if (mylist->data->shape == Head && head == false)
@@ -453,9 +464,9 @@ void Player::Put(const String& put, const String& into)
 		return;
 	}
 
-	for (int i = ITEM_VEC; i < world->entity.Size(); i++)
+	for (int i = ITEM_VEC; i <= world->entity.Size(); i++)
 	{
-		for (int j = ITEM_VEC; j < world->entity.Size(); j++)
+		for (int j = ITEM_VEC; j <= world->entity.Size(); j++)
 		{
 			if (put == ((Items*)world->entity[i])->name && ((Items*)world->entity[i])->inside == true && into == ((Items*)world->entity[j])->name && ((Items*)world->entity[j])->container == true && ((Items*)world->entity[i])->already_inside == false)
 			{
@@ -464,6 +475,7 @@ void Player::Put(const String& put, const String& into)
 				((Items*)world->entity[i])->picked = false;
 				((Items*)world->entity[i])->already_inside = true;
 				printf("You put %s into %s\n", ((Items*)world->entity[i])->name.c_str(), ((Items*)world->entity[j])->name.c_str());
+				Drop(put);
 				finish = true;
 				return;
 			}
@@ -491,9 +503,9 @@ void Player::Get(const String& get, const String& from)
 		return;
 	}
 
-	for (int i = ITEM_VEC; i < world->entity.Size(); i++)
+	for (int i = ITEM_VEC; i <= world->entity.Size(); i++)
 	{
-		for (int j = ITEM_VEC; j < world->entity.Size(); j++)
+		for (int j = ITEM_VEC; j <= world->entity.Size(); j++)
 		{
 			if (get == ((Items*)world->entity[i])->name && ((Items*)world->entity[i])->inside == true && from == ((Items*)world->entity[j])->name && ((Items*)world->entity[j])->container == true && ((Items*)world->entity[i])->already_inside == true)
 			{
@@ -502,6 +514,7 @@ void Player::Get(const String& get, const String& from)
 				((Items*)world->entity[i])->picked = true;
 				((Items*)world->entity[i])->already_inside = false;
 				printf("You get %s from %s\n", ((Items*)world->entity[i])->name.c_str(), ((Items*)world->entity[j])->name.c_str());
+				Pick(get);
 				finish = true;
 				return;
 			}
