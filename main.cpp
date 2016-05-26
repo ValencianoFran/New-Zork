@@ -35,28 +35,28 @@ int main() {
 				break;
 			}
 
-			if (commands[0] == "north" || commands[0] == "n")
+			else if (commands[0] == "north" || commands[0] == "n")
 			{
 				world->player->Go(commands[0]);
 			}
-			if (commands[0] == "south" || commands[0] == "s")
+			else if(commands[0] == "south" || commands[0] == "s")
 			{
 				world->player->Go(commands[0]);
 			}
 
-			if (commands[0] == "east" || commands[0] == "e")
+			else if(commands[0] == "east" || commands[0] == "e")
 			{
 				world->player->Go(commands[0]);
 			}
-			if (commands[0] == "west" || commands[0] == "w")
+			else if(commands[0] == "west" || commands[0] == "w")
 			{
 				world->player->Go(commands[0]);
 			}
-			if (commands[0] == "up" || commands[0] == "u")
+			else if(commands[0] == "up" || commands[0] == "u")
 			{
 				world->player->Go(commands[0]);
 			}
-			if (commands[0] == "down" || commands[0] == "d")
+			else if(commands[0] == "down" || commands[0] == "d")
 			{
 				world->player->Go(commands[0]);
 			}
@@ -64,7 +64,7 @@ int main() {
 
 			//With 2 words input
 
-			if (commands.Size() > 1 && (commands[0] == "go" || commands[0] == "g"))
+			else if (commands.Size() > 1 && (commands[0] == "go" || commands[0] == "g"))
 			{
 				if (world->player->Direction(commands[1]) != INVALID)
 				{
@@ -76,7 +76,7 @@ int main() {
 				}
 			}
 
-			if (commands[0] == "look" || commands[0] == "l")
+			else if (commands[0] == "look" || commands[0] == "l")
 			{
 				if (spaces == 0)
 				{
@@ -158,8 +158,6 @@ int main() {
 
 		}
 	}
-
-	system("pause");
 	return 0;
 }
 

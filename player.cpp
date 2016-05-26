@@ -1,6 +1,5 @@
 #include "world.h"
 
-#define NUM_EXITS 16
 #define INVALID -1
 
 Player::Player(){}
@@ -21,13 +20,13 @@ void Player::Go(const String& op) //Move player
 	bool finish = false;   //Check if go action is completed
 	int direction = Direction(op); //Translate String into enum
 
-		for (i = 0; i < NUM_EXITS; i++)
+		for (i = 0; i < world->entity.Size(); i++)
 		{
 			if ((world->entity[i]->shape == EXIT && ((Exit*)world->entity[i])->origin == this->position))
 			{
 				if (((Exit*)world->entity[i])->direction == direction)
 				{
-					if (((Room*)world->entity[i])->item_required == true)
+					if (((Exit*)world->entity[i])->destination->item_required == true)
 					{
 						printf("You need an special item to come here\n");
 						finish = true;
@@ -123,7 +122,7 @@ void Player::Look(const String& op) //Look the exit
 
 	if (direc != INVALID)
 	{
-		for (i = 0; i < NUM_EXITS; i++)
+		for (i = 0; i < world->entity.Size(); i++)
 		{
 			if (world->entity[i]->shape == EXIT && ((Exit*)world->entity[i])->origin == position) //Compares the player position with the origin room of the exit
 			{
@@ -143,7 +142,7 @@ void Player::Look(const String& op) //Look the exit
 
 	if (item != INVALID)
 	{
-		for (int j = 0; j <= 9; j++)
+		for (int j = 0; j < world->entity.Size(); j++)
 		{
 			if (((Items*)world->entity[j])->name == op)
 			{
@@ -156,7 +155,7 @@ void Player::Look(const String& op) //Look the exit
 
 int Player::Item_verification(const String& item)
 {
-	for (int j = 0; j <= 9; j++)
+	for (int j = 0; j < world->entity.Size(); j++)
 	{
 		if (((Items*)world->entity[j])->name == item)
 		{
