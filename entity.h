@@ -4,7 +4,7 @@
 #include "dlist.h"
 #include "string.h"
 
-enum Shape{ ROOM = 0, EXIT, CREATURE, ITEM };
+enum Shape{ ROOM = 0, EXIT, CREATURE, ITEM, NPC };
 
 class Entity
 {
