@@ -37,6 +37,7 @@ public:
 	void Get(const String&, const String&);
 	void Attack(const String&);
 	int Creature_verification(const String&);
+	void Buy(const String&, const String&);
 	~Player();
 };
 

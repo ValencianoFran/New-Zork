@@ -132,11 +132,9 @@ void World::CreateWorld()
 	
 	//Entity 29
 	entity.push_back(new Items("Goggles", "This should allow me to snorquel\n", (Room*)entity[6], 10, 0, Head, false, true, true, ITEM));
-	entity[6]->list.push_back(entity[29]);
 	
 	//Entity 30
 	entity.push_back(new Items("Knife", "It cuts, should be careful\n", (Room*)entity[8], 10, 60, Hand, false, true, true, ITEM));
-	entity[8]->list.push_back(entity[30]);
 	
 	//Entity 31
 	entity.push_back(new Items("Banana", "It doesn't smell good\n", (Room*)entity[8], 10, 0, Hand, false, false, false, ITEM));
@@ -145,17 +143,19 @@ void World::CreateWorld()
 	//Entity 32
 	entity.push_back(new Items("Chest", "There are a knife inside it\n", (Room*)entity[8], 10, 0, Cant_Equip, true, false, false, ITEM));
 	entity[8]->list.push_back(entity[32]);
+	entity[32]->list.push_back(entity[30]);
 	
 	//Entity 33
 	entity.push_back(new Items("Box", "There are goggles inside\n", (Room*)entity[6], 10, 0, Cant_Equip, true, false, false, ITEM));
 	entity[6]->list.push_back(entity[33]);
-	
+	entity[33]->list.push_back(entity[29]);
+
 	//Entity 34
 	entity.push_back(new Items("Boat", "It allows you to navegate in the sea\n", (Room*)entity[0], 10, 0, Drive, false, false, false, ITEM));
 	entity[0]->list.push_back(entity[34]);
 
 	//Entity 35
-	entity.push_back(new Creatures("Shark", "He have big teeths\n", (Room*)entity[2], 60, 100, 0, true, CREATURE));
+	entity.push_back(new Creatures("Shark", "He have big teeths\n", (Room*)entity[2], 0, 100, 0, true, CREATURE));
 	
 	//Entity 36
 	entity.push_back(new Creatures("Monkey", "Seems friendly\n", (Room*)entity[4], 10, 20, 0, true, CREATURE));
@@ -177,14 +177,15 @@ void World::Tutorial() const //Controls of the game
 
 void World::Inventory()
 {
+	bool done = false;
 	Dlist<Entity*>::Node* mylist = player->list.first;
 	printf("You have this items in the inventory:\n");
 	for (; mylist != nullptr; mylist = mylist->next)
 	{
 		printf("%s\t%s\n", mylist->data->name.c_str(), mylist->data->description.c_str());
-		return;
+		done = true;
 	}
-	if (mylist == nullptr)
+	if (mylist == nullptr && done == false)
 	{
 		printf("You don't have items yet\n");
 		return;

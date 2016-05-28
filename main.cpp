@@ -152,6 +152,11 @@ int main() {
 				world->player->Attack(commands[1]);
 
 			}
+			//Buy
+			else if (commands[0] == "buy" && commands[2] == "from")
+			{
+				world->player->Buy(commands[1], commands[3]);
+			}
 
 			//If the user introduces invalid command
 			else

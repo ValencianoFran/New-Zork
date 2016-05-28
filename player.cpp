@@ -1,5 +1,6 @@
 #include "world.h"
 #include "dlist.h"
+#include "creatures.h"
 
 #define INVALID -1
 
@@ -382,18 +383,23 @@ void Player::Equip(const String& item)
 				printf("You equiped %s\n", mylist->data->name.c_str());
 				hand = true;
 				damage += item_comprovant;
+				((Items*)world->entity[this_item])->equipped = true;
 				return;
 			}
 			if (((Items*)world->entity[this_item])->slot == Head && head == false)
 			{
 				printf("You equiped %s\n", mylist->data->name.c_str());
 				head = true;
+				((Items*)world->entity[this_item])->equipped = true;
+				((Room*)world->entity[1])->item_required = false;
 				return;
 			}
 			if (((Items*)world->entity[this_item])->slot == Drive && drive == false)
 			{
 				printf("You equiped %s\n", mylist->data->name.c_str());
 				drive = true;
+				((Items*)world->entity[this_item])->equipped = true;
+				((Room*)world->entity[2])->item_required = false;
 				return;
 			}
 		}
@@ -456,12 +462,16 @@ void Player::Unequip(const String& item)
 			{
 				printf("You unequiped %s\n", mylist->data->name.c_str());
 				head = false;
+				((Items*)world->entity[this_item])->equipped = false;
+				((Room*)world->entity[1])->item_required = true;
 				return;
 			}
 			if (((Items*)world->entity[this_item])->slot == Drive && drive == true)
 			{
 				printf("You unequiped %s\n", mylist->data->name.c_str());
 				drive = false;
+				((Items*)world->entity[this_item])->equipped = false;
+				((Room*)world->entity[2])->item_required = true;
 				return;
 			}
 		}
@@ -500,7 +510,28 @@ void Player::Put(const String& put, const String& into)
 		return;
 	}
 
+
 	for (int i = ITEM_VEC; i <= world->entity.Size(); i++)
+	{
+		if (((Items*)world->entity[i])->name == into)
+		{
+			Dlist<Entity*>::Node* mylist = list.first;
+			for (; mylist != nullptr; mylist = mylist->next)
+			{
+				if (mylist->data->name == put)
+				{
+					printf("You put %s into %s\n", mylist->data->name.c_str(), ((Items*)world->entity[i])->name.c_str());
+					((Items*)world->entity[i])->list.push_back(mylist->data);
+					list.erase(mylist);
+					return;
+				}
+			}
+		}
+		
+	}
+
+
+	/*for (int i = ITEM_VEC; i <= world->entity.Size(); i++)
 	{
 		for (int j = ITEM_VEC; j <= world->entity.Size(); j++)
 		{
@@ -516,7 +547,7 @@ void Player::Put(const String& put, const String& into)
 				return;
 			}
 		}
-	}
+	}*/
 
 	if (finish == false)
 	{
@@ -528,7 +559,6 @@ void Player::Put(const String& put, const String& into)
 
 void Player::Get(const String& get, const String& from)
 {
-	bool finish = false;
 	int item_comprovant1 = INVALID;
 	int item_comprovant2 = INVALID;
 	item_comprovant1 = Item_verification(get);
@@ -538,31 +568,47 @@ void Player::Get(const String& get, const String& from)
 		printf("Thats a invalid item\n");
 		return;
 	}
+	
 
 	for (int i = ITEM_VEC; i <= world->entity.Size(); i++)
 	{
-		for (int j = ITEM_VEC; j <= world->entity.Size(); j++)
+		Dlist<Entity*>::Node* objectlist = ((Items*)world->entity[i])->list.first;
+		for (; objectlist != nullptr; objectlist = objectlist->next)
 		{
-			if (get == ((Items*)world->entity[i])->name && ((Items*)world->entity[i])->inside == true && from == ((Items*)world->entity[j])->name && ((Items*)world->entity[j])->container == true && ((Items*)world->entity[i])->already_inside == true)
+			if (objectlist->data->name == get)
 			{
-				((Items*)world->entity[j])->chest.pop_back();
-				((Items*)world->entity[i])->equipped = false;
-				((Items*)world->entity[i])->picked = true;
-				((Items*)world->entity[i])->already_inside = false;
-				printf("You get %s from %s\n", ((Items*)world->entity[i])->name.c_str(), ((Items*)world->entity[j])->name.c_str());
-				Pick(get);
-				finish = true;
+				printf("You get %s from %s\n", objectlist->data->name.c_str(), ((Items*)world->entity[i])->name.c_str());
+				list.push_back(objectlist->data);
+				((Items*)world->entity[i])->list.erase(objectlist);
 				return;
 			}
 		}
-
 	}
 
-	if (finish == false)
+	
+	/*for (int i = ITEM_VEC; i <= world->entity.Size(); i++)
 	{
-		printf("You can't get that item from it\n");
-		return;
-	}
+		for (int j = ITEM_VEC; j <= world->entity.Size(); j++)
+		{
+			if (get == ((Items*)world->entity[i])->name && ((Items*)world->entity[i])->inside == true && from == ((Items*)world->entity[j])->name && ((Items*)world->entity[j])->container == true && ((Items*)world->entity[i])->already_inside == true && ((Items*)world->entity[j])->picked == true)
+			{
+				if (((Items*)world->entity[i])->place == position)
+				{
+					((Items*)world->entity[j])->chest.pop_back();
+					((Items*)world->entity[i])->equipped = false;
+					((Items*)world->entity[i])->picked = true;
+					((Items*)world->entity[i])->already_inside = false;
+					printf("You get %s from %s\n", ((Items*)world->entity[i])->name.c_str(), ((Items*)world->entity[j])->name.c_str());
+					return;
+				}
+				
+			}
+		}
+
+	}*/
+
+	printf("You can't get that item from it\n");
+	return;
 
 }
 
@@ -617,6 +663,57 @@ void Player::Attack(const String& creature)
 	}
 
 	return;
+}
+
+void Player::Buy(const String& item, const String& npc)
+{
+	int item_comprovant = INVALID;
+	int this_item = 0;
+	item_comprovant = Item_verification(item); // RETURNS THE DAMAGE THAT THIS OBJET INCREASES TO THE PLAYER AND SEE IF THE OBJECT EXIST
+	if (item_comprovant == INVALID)
+	{
+		printf("Thats a invalid item\n");
+		return;
+	}
+
+	int i = ITEM_VEC;
+	int creature_comprovant = INVALID;
+	int this_creature = 0;
+	creature_comprovant = Item_verification(npc);
+
+	if (creature_comprovant == INVALID)
+	{
+		printf("Thats not a npc\n");
+		return;
+	}
+
+	if (position != ((Creatures*)world->entity[38])->place)
+	{
+		printf("There are noone to trade with\n");
+		return;
+	}
+	bool finished = false;
+	Dlist<Entity*>::Node* mylist = list.first;
+	Dlist<Entity*>::Node* npc_objects = world->entity[38]->list.first;
+	for (; mylist != nullptr; mylist = mylist->next)
+	{
+		for (; npc_objects != nullptr; npc_objects = npc_objects->next)
+		{
+			if (mylist->data->name == "Pearl")
+			{
+				printf("You bought %s from %s\n", npc_objects->data->name.c_str(), npc);
+				list.push_back(npc_objects->data);
+				world->entity[38]->list.push_back(mylist->data);
+				list.erase(mylist);
+				return;
+			}
+		}
+		finished = true;
+	}
+
+	printf("You don't have pearls to trade\n");
+	return;
+
 }
 
 
