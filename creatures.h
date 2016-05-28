@@ -9,9 +9,14 @@ public:
 	
 	int hp = 0;
 	int damage = 0;
+	int money = 0;
+	bool state_agressive = false;
 	Room* place = nullptr;
 
-	Creatures(const char* name, const char* description, Room*, const int& hp, const int& dmg, Shape shape);
+	Creatures(const char* name, const char* description, Room*, const int& hp, const int& dmg, const int& money, const bool& state, Shape shape);
+	
+
+	
 	~Creatures();
 };
 

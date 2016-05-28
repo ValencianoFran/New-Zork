@@ -141,6 +141,12 @@ int main() {
 			{
 				world->player->Get(commands[1], commands[3]);
 			}
+			//Attack
+			else if (commands[0] == "attack")
+			{
+				world->player->Attack(commands[1]);
+			}
+
 			//If the user introduces invalid command
 			else
 			{

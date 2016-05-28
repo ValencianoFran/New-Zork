@@ -8,6 +8,7 @@
 #include "string.h"
 #include "vector.h"
 #include "items.h"
+#include "creatures.h"
 
 #define ITEM_VEC 25
 

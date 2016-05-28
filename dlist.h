@@ -93,7 +93,7 @@ public:
 			{
 				temp = temp->next;
 			}
-			temp->next = new_node;
+			temp->next = node;
 			node->previous = temp;
 		}
 	}
@@ -197,15 +197,15 @@ public:
 			}
 			else
 			{
-				erase->previous->next = toerase->next;
-				erase->next->previous = toerase->previous;
+				erase->previous->next = erase->next;
+				erase->next->previous = erase->previous;
 			}
-			delete toerase;
+			delete erase;
 		}
 		else
 		{
 			first = nullptr;
-			delete toerase;
+			delete erase;
 		}
 	}
 

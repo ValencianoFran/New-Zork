@@ -155,11 +155,11 @@ void Player::Look(const String& op) //Look the exit
 
 int Player::Item_verification(const String& item)
 {
-	for (int j = 0; j < world->entity.Size(); j++)
+	for (int j = ITEM_VEC; j < world->entity.Size(); j++)
 	{
 		if (((Items*)world->entity[j])->name == item)
 		{
-			return 1;
+			return ((Items*)world->entity[j])->item_damage;
 		}
 	}
 	return INVALID;
@@ -340,8 +340,8 @@ void Player::Drop(const String& item)
 
 void Player::Equip(const String& item)
 {
-	int item_comprovant = INVALID;
-	item_comprovant = Item_verification(item);
+	int item_comprovant = INVALID; 
+	item_comprovant = Item_verification(item); // RETURNS THE DAMAGE THAT THIS OBJET INCREASES TO THE PLAYER AND SEE IF THE OBJECT EXIST
 	if (item_comprovant == INVALID)
 	{
 		printf("Thats a invalid item\n");
@@ -357,6 +357,7 @@ void Player::Equip(const String& item)
 			{
 				printf("You equiped %s\n", mylist->data->name.c_str());
 				hand = true;
+				damage += item_comprovant;
 				return;
 			}
 			if (mylist->data->shape == Head && head == false)
