@@ -341,6 +341,7 @@ void Player::Drop(const String& item)
 void Player::Equip(const String& item)
 {
 	int item_comprovant = INVALID; 
+	int this_item = 0;
 	item_comprovant = Item_verification(item); // RETURNS THE DAMAGE THAT THIS OBJET INCREASES TO THE PLAYER AND SEE IF THE OBJECT EXIST
 	if (item_comprovant == INVALID)
 	{
@@ -348,25 +349,33 @@ void Player::Equip(const String& item)
 		return;
 	}
 	
+	for (int j = ITEM_VEC; j < world->entity.Size(); j++)
+	{
+		if (((Items*)world->entity[j])->name == item)
+		{
+			this_item = j;
+		}
+	}
+
 	Dlist<Entity*>::Node* mylist = list.first;
 	for (; mylist != nullptr; mylist = mylist->next)
 	{
 		if (mylist->data->name == item)
 		{
-			if (mylist->data->shape == Hand && hand == false)
+			if (((Items*)world->entity[this_item])->slot == Hand && hand == false)
 			{
 				printf("You equiped %s\n", mylist->data->name.c_str());
 				hand = true;
 				damage += item_comprovant;
 				return;
 			}
-			if (mylist->data->shape == Head && head == false)
+			if (((Items*)world->entity[this_item])->slot == Head && head == false)
 			{
 				printf("You equiped %s\n", mylist->data->name.c_str());
 				head = true;
 				return;
 			}
-			if (mylist->data->shape == Drive && drive == false)
+			if (((Items*)world->entity[this_item])->slot == Drive && drive == false)
 			{
 				printf("You equiped %s\n", mylist->data->name.c_str());
 				drive = true;
@@ -399,6 +408,7 @@ void Player::Unequip(const String& item)
 {
 
 	int item_comprovant = INVALID;
+	int this_item = 0;
 	item_comprovant = Item_verification(item);
 	if (item_comprovant == INVALID)
 	{
@@ -406,24 +416,34 @@ void Player::Unequip(const String& item)
 		return;
 	}
 
+	for (int j = ITEM_VEC; j < world->entity.Size(); j++)
+	{
+		if (((Items*)world->entity[j])->name == item)
+		{
+			this_item = j;
+		}
+	}
+
+
 	Dlist<Entity*>::Node* mylist = list.first;
 	for (; mylist != nullptr; mylist = mylist->next)
 	{
 		if (mylist->data->name == item)
 		{
-			if (mylist->data->shape == Hand && hand == true)
+			if (((Items*)world->entity[this_item])->slot == Hand && hand == true)
 			{
 				printf("You unequiped %s\n", mylist->data->name.c_str());
 				hand = false;
+				damage -= item_comprovant;
 				return;
 			}
-			if (mylist->data->shape == Head && head == true)
+			if (((Items*)world->entity[this_item])->slot == Head && head == true)
 			{
 				printf("You unequiped %s\n", mylist->data->name.c_str());
 				head = false;
 				return;
 			}
-			if (mylist->data->shape == Drive && drive == true)
+			if (((Items*)world->entity[this_item])->slot == Drive && drive == true)
 			{
 				printf("You unequiped %s\n", mylist->data->name.c_str());
 				drive = false;
