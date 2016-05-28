@@ -35,6 +35,8 @@ public:
 	void Unequip(const String&);
 	void Put(const String&, const String&);
 	void Get(const String&, const String&);
+	void Attack(const String&);
+	int Creature_verification(const String&);
 	~Player();
 };
 

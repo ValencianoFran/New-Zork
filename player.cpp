@@ -43,7 +43,14 @@ void Player::Go(const String& op) //Move player
 					{
 						this->position = ((Exit*)world->entity[i])->destination;
 						printf("\nYou are in %s\n\n%s \n", this->position->name.c_str(), this->position->description.c_str());
-
+						for (int j = ITEM_VEC; j < world->entity.Size(); j++)
+						{
+							if (((Creatures*)world->entity[j])->place == position && ((Creatures*)world->entity[j])->hp > 0)
+							{
+								printf("You can see: %s\t%s\n", ((Creatures*)world->entity[j])->name.c_str(), ((Creatures*)world->entity[j])->description.c_str());
+							}
+						}
+						
 						finish = true;
 						break;
 					}
@@ -98,6 +105,13 @@ void Player::Look(const String& op) //Look the exit
 	if (op == "look" || op == "l")
 	{
 		printf("\nYou see %s\n%s ", position->name.c_str(), position->description.c_str());
+		for (int j = ITEM_VEC; j < world->entity.Size(); j++)
+		{
+			if (((Creatures*)world->entity[j])->place == position && ((Creatures*)world->entity[j])->hp > 0)
+			{
+				printf("You can see: %s\t%s\n", ((Creatures*)world->entity[j])->name.c_str(), ((Creatures*)world->entity[j])->description.c_str());
+			}
+		}
 		printf("You can see this items:\n");
 		
 		for (j = 0; j < world->entity.Size(); j++)
@@ -155,6 +169,7 @@ void Player::Look(const String& op) //Look the exit
 
 int Player::Item_verification(const String& item)
 {
+	//Returns item damage
 	for (int j = ITEM_VEC; j < world->entity.Size(); j++)
 	{
 		if (((Items*)world->entity[j])->name == item)
@@ -549,6 +564,59 @@ void Player::Get(const String& get, const String& from)
 		return;
 	}
 
+}
+
+int Player::Creature_verification(const String& creature)
+{
+	//Returns HP of the creature
+	for (int j = ITEM_VEC; j < world->entity.Size(); j++)
+	{
+		if (((Creatures*)world->entity[j])->name == creature)
+		{
+			return ((Creatures*)world->entity[j])->hp;
+		}
+	}
+	return INVALID;
+}
+
+void Player::Attack(const String& creature)
+{
+	int i = ITEM_VEC;
+	int creature_comprovant = INVALID;
+	int this_creature = 0;
+	creature_comprovant = Item_verification(creature);
+
+	if (creature_comprovant == INVALID)
+	{
+		printf("Thats not a creature\n");
+		return;
+	}
+
+	for (int j = ITEM_VEC; j < world->entity.Size(); j++)
+	{
+		if (((Creatures*)world->entity[j])->name == creature)
+		{
+			this_creature = j;
+		}
+	}
+
+	if (((Creatures*)world->entity[this_creature])->hp > 0)
+	{
+		printf("You attacked %s\n", creature);
+		((Creatures*)world->entity[this_creature])->hp -= damage;
+		if (((Creatures*)world->entity[this_creature])->hp <= 0)
+		{
+			printf("You killed %s\n", creature);
+			return;
+		}
+	}
+	else
+	{
+		printf("The creature is not here\n");
+		return;
+	}
+
+	return;
 }
 
 
