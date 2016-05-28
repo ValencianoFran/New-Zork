@@ -13,7 +13,7 @@ public:
 	bool state_agressive = false;
 	Room* place = nullptr;
 
-	Creatures(const char* name, const char* description, Room*, const int& hp, const int& dmg, const int& money, const bool& state, Shape shape);
+	Creatures(const char* name, const char* description, Room*, int hp, int dmg, int money, const bool state, Shape shape);
 	
 
 	

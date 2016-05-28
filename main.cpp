@@ -7,7 +7,8 @@
 World* world = nullptr;
 
 
-int main() {
+int main() 
+{
 	fflush(stdin);
 	world = new World;
 	Items item;
@@ -17,7 +18,6 @@ int main() {
 	printf("WELCOME TO MY ZORK!\nYou are lost in one island and you have to scape.\nHave fun!\n\n");
 	world->Tutorial(); //Controls
 	world->CreateWorld(); //Create the world
-	world->CreatePlayer(); //Create player
 	printf("Introduce where you want to go:\n");
 
 	while (1)
@@ -156,6 +156,11 @@ int main() {
 			else if (commands[0] == "buy" && commands[2] == "from")
 			{
 				world->player->Buy(commands[1], commands[3]);
+			}
+			//Sell
+			else if (commands[0] == "sell" && commands[2] == "from")
+			{
+				world->player->Sell(commands[1], commands[3]);
 			}
 
 			//If the user introduces invalid command

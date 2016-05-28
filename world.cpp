@@ -13,19 +13,10 @@
 
 
 World::World()
-{
-	player = new Player;
-}
+{}
 
 World::~World()
-{
-	
-}
-
-void World::CreatePlayer() const
-{
-	player->position = (Room*)entity[0];
-}
+{}
 
 
 
@@ -155,7 +146,7 @@ void World::CreateWorld()
 	entity[0]->list.push_back(entity[34]);
 
 	//Entity 35
-	entity.push_back(new Creatures("Shark", "He have big teeths\n", (Room*)entity[2], 0, 100, 0, true, CREATURE));
+	entity.push_back(new Creatures("Shark", "He have big teeths\n", (Room*)entity[2], 50, 100, 0, true, CREATURE));
 	
 	//Entity 36
 	entity.push_back(new Creatures("Monkey", "Seems friendly\n", (Room*)entity[4], 10, 20, 0, true, CREATURE));
@@ -165,8 +156,11 @@ void World::CreateWorld()
 	entity[37]->list.push_back(entity[25]);
 	
 	//Entity 38
-	entity.push_back(new Creatures("Shopman", "He will trade for pearls\n", (Room*)entity[7], 10, 20, 0, false, NPCS));
+	entity.push_back(new Creatures("Shopman", "He will trade for pearls\n", (Room*)entity[7], 10, 20, 5, false, NPCS));
 	entity[38]->list.push_back(entity[27]);
+
+	//Player
+	entity.push_back(player = new Player("Lost", "The protagonist", (Room*)entity[0], 50, 20, 0, false, PLAYER));
 }
 
 

@@ -1,14 +1,12 @@
 #include "world.h"
 #include "dlist.h"
 #include "creatures.h"
+#include "room.h"
 
 #define INVALID -1
 
-Player::Player(){}
-
-Player::Player(int& hp, int& dmg, Room* pos) : hp(hp), damage(dmg), position(pos)
+Player::Player(const char* name, const char* description, Room* pos, int hp, int dmg,  int money,  bool state, Shape shape) : Creatures(name, description, pos, hp, dmg, money, state, shape)//hp(hp), damage(dmg), position(pos)
 {}
-
 
 void Player::Stats()
 {
@@ -24,7 +22,7 @@ void Player::Go(const String& op) //Move player
 
 		for (i = 0; i < world->entity.Size(); i++)
 		{
-			if ((world->entity[i]->shape == EXIT && ((Exit*)world->entity[i])->origin == this->position))
+			if ((world->entity[i]->shape == EXIT && ((Exit*)world->entity[i])->origin == this->place))
 			{
 				if (((Exit*)world->entity[i])->direction == direction)
 				{
@@ -42,11 +40,11 @@ void Player::Go(const String& op) //Move player
 					}
 					else
 					{
-						this->position = ((Exit*)world->entity[i])->destination;
-						printf("\nYou are in %s\n\n%s \n", this->position->name.c_str(), this->position->description.c_str());
+						this->place = ((Exit*)world->entity[i])->destination;
+						printf("\nYou are in %s\n\n%s \n", this->place->name.c_str(), this->place->description.c_str());
 						for (int j = ITEM_VEC; j < world->entity.Size(); j++)
 						{
-							if (((Creatures*)world->entity[j])->place == position && ((Creatures*)world->entity[j])->hp > 0)
+							if (((Creatures*)world->entity[j])->place == place && ((Creatures*)world->entity[j])->hp > 0 && ((Creatures*)world->entity[j])->name != "Lost")
 							{
 								printf("You can see: %s\t%s\n", ((Creatures*)world->entity[j])->name.c_str(), ((Creatures*)world->entity[j])->description.c_str());
 							}
@@ -99,35 +97,39 @@ void Player::Look(const String& op) //Look the exit
 {
 	int direc = INVALID;
 	int item = INVALID;
-	int  i = 0, j = 0, saw_items = 0;
+	int i = 0, saw_items = 0;
+	int j = 0;
 	bool finish = false;   //Check if go action is completed
 	item = Item_verification(op); //Look if the item name is valid
 
 	if (op == "look" || op == "l")
 	{
-		printf("\nYou see %s\n%s ", position->name.c_str(), position->description.c_str());
+		printf("\nYou see %s\n%s ", place->name.c_str(), place->description.c_str());
 		for (int j = ITEM_VEC; j < world->entity.Size(); j++)
 		{
-			if (((Creatures*)world->entity[j])->place == position && ((Creatures*)world->entity[j])->hp > 0)
+			if (((Creatures*)world->entity[j])->place == place && ((Creatures*)world->entity[j])->hp > 0 && ((Creatures*)world->entity[j])->name != "Lost")
 			{
 				printf("You can see: %s\t%s\n", ((Creatures*)world->entity[j])->name.c_str(), ((Creatures*)world->entity[j])->description.c_str());
 			}
 		}
-		printf("You can see this items:\n");
-		
+
 		for (j = 0; j < world->entity.Size(); j++)
 		{
-			if (world->entity[j]->shape == ITEM && ((Items*)world->entity[j])->place == position && ((Items*)world->entity[j])->picked == false && ((Items*)world->entity[j])->equipped == false && ((Items*)world->entity[j])->already_inside == false)
+			if (world->entity[j]->shape == ITEM && ((Items*)world->entity[j])->place == place && ((Items*)world->entity[j])->picked == false && ((Items*)world->entity[j])->equipped == false && ((Items*)world->entity[j])->already_inside == false)
 			{
-				printf("%s:\t%s\n", ((Items*)world->entity[j])->name.c_str(), ((Items*)world->entity[j])->description.c_str());
+				printf("You can see: %s:\t%s\n", ((Items*)world->entity[j])->name.c_str(), ((Items*)world->entity[j])->description.c_str());
 				saw_items++;
 			}
 		}
-		if (saw_items == 0) printf("There are no items here\n");
-		finish = true;
+		if (saw_items == 0)
+		{
+			printf("There are no items here\n");
+			finish = true;
+			return;
+		}
 		return;
 	}
-
+	
 	direc = Direction(op); //Look if the direction name is valid
 	if (direc == INVALID && item == INVALID)
 	{
@@ -139,7 +141,7 @@ void Player::Look(const String& op) //Look the exit
 	{
 		for (i = 0; i < world->entity.Size(); i++)
 		{
-			if (world->entity[i]->shape == EXIT && ((Exit*)world->entity[i])->origin == position) //Compares the player position with the origin room of the exit
+			if (world->entity[i]->shape == EXIT && ((Exit*)world->entity[i])->origin == place) //Compares the player position with the origin room of the exit
 			{
 				if (((Exit*)world->entity[i])->direction == direc)
 				{
@@ -197,7 +199,7 @@ void Player::Open(const String& op) //Open doors
 		for (i = 0; i < world->entity.Size(); i++)
 		{
 
-			if (((Exit*)world->entity[i])->origin == position) //Compares the player position with the origin room of the exit
+			if (((Exit*)world->entity[i])->origin == place) //Compares the player position with the origin room of the exit
 			{
 				if (((Exit*)world->entity[i])->direction == direc)
 				{
@@ -239,7 +241,7 @@ void Player::Close(const String& op) //Similar function of Open, but it closes t
 	{
 		for (i = 0; i < world->entity.Size(); i++)
 		{
-			if (((Exit*)world->entity[i])->origin == position)
+			if (((Exit*)world->entity[i])->origin == place)
 			{
 				if (((Exit*)world->entity[i])->direction == direc)
 				{
@@ -285,9 +287,9 @@ void Player::Pick(const String& item)
 	for (i = ITEM_VEC; ((Items*)world->entity[i])->name != item && i <= world->entity.Size(); i++) //Use i value to know if the item is in a container
 	{}
 
-	if (position->list.first != nullptr)
+	if (place->list.first != nullptr)
 	{
-		Dlist<Entity*>::Node* mylist = position->list.first;
+		Dlist<Entity*>::Node* mylist = place->list.first;
 		for (; mylist != nullptr; mylist = mylist->next)
 		{
 			if (mylist->data->name == item)
@@ -299,7 +301,7 @@ void Player::Pick(const String& item)
 				}
 				printf("You picked %s\n", mylist->data->name.c_str());
 				list.push_back(mylist->data);
-				position->list.erase(mylist);
+				place->list.erase(mylist);
 				num_items++;
 				return;
 			}
@@ -342,7 +344,7 @@ void Player::Drop(const String& item)
 			{
 				Unequip(item);
 				printf("You dropped %s\n", mylist->data->name.c_str());
-				position->list.push_back(mylist->data);
+				place->list.push_back(mylist->data);
 				list.erase(mylist);
 				num_items--;
 				return;
@@ -652,8 +654,22 @@ void Player::Attack(const String& creature)
 		((Creatures*)world->entity[this_creature])->hp -= damage;
 		if (((Creatures*)world->entity[this_creature])->hp <= 0)
 		{
-			printf("You killed %s\n", creature);
-			return;
+			for (int i = 0; i < world->entity.Size(); i++)
+			{
+				if (((Room*)world->entity[i]) == place)
+				{
+					printf("You killed %s\n", creature);
+					return;
+					/*Dlist<Entity*>::Node* npc_objects = world->entity[this_creature]->list.first;
+					for (; npc_objects != nullptr; npc_objects = npc_objects->next)
+					{
+						((Room*)world->entity[i])->list.push_back(npc_objects->data);
+						((Creatures*)world->entity[this_creature])->list.pop_front();
+						printf("NPC dropped items\n");
+					}*/
+					
+				}
+			}
 		}
 	}
 	else
@@ -687,7 +703,7 @@ void Player::Buy(const String& item, const String& npc)
 		return;
 	}
 
-	if (position != ((Creatures*)world->entity[38])->place)
+	if (place != ((Creatures*)world->entity[38])->place)
 	{
 		printf("There are noone to trade with\n");
 		return;
@@ -721,6 +737,55 @@ void Player::Buy(const String& item, const String& npc)
 
 }
 
+void Player::Sell(const String& item, const String& npc)
+{
+	int item_comprovant = INVALID;
+	int this_item = 0;
+	item_comprovant = Item_verification(item); // RETURNS THE DAMAGE THAT THIS OBJET INCREASES TO THE PLAYER AND SEE IF THE OBJECT EXIST
+	if (item_comprovant == INVALID)
+	{
+		printf("Thats a invalid item\n");
+		return;
+	}
+
+	int i = ITEM_VEC;
+	int creature_comprovant = INVALID;
+	int this_creature = 0;
+	creature_comprovant = Item_verification(npc);
+
+	if (creature_comprovant == INVALID)
+	{
+		printf("Thats not a npc\n");
+		return;
+	}
+
+	if (place != ((Creatures*)world->entity[38])->place)
+	{
+		printf("There are noone to trade with\n");
+		return;
+	}
+
+	bool finished = false;
+	Dlist<Entity*>::Node* mylist = list.first;
+	for (; mylist != nullptr; mylist = mylist->next)
+	{
+		if (mylist->data->name == item && ((Creatures*)world->entity[38])->money > 0)
+		{
+			printf("You sell %s to %s\n", item.c_str(), npc.c_str());
+			world->entity[38]->list.push_back(mylist->data);
+			list.erase(mylist);
+			((Creatures*)world->entity[38])->money--;
+			list.push_back(world->entity[26]); //Adds one pearl to the inventory
+			return;
+
+		}
+		finished = true;
+	}
+
+	printf("You don't have pearls to trade\n");
+	return;
+
+}
 
 Player::~Player()
 {}

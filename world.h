@@ -19,12 +19,11 @@ class World : public Entity
 {
 public:
 	Vector<Entity*> entity;
-	Player* player;
+	Player* player = nullptr;
 
 	World();
 	~World();
 	void Tutorial() const;
-	void CreatePlayer() const;
 	void Inventory();
 	void CreateWorld();
 
