@@ -157,6 +157,10 @@ int main()
 			{
 				world->player->Buy(commands[1], commands[3]);
 			}
+			else if (commands[0] == "buy")
+			{
+				world->player->Buy_list(commands[1]);
+			}
 			//Sell
 			else if (commands[0] == "sell" && commands[2] == "from")
 			{

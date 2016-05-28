@@ -695,7 +695,7 @@ void Player::Buy(const String& item, const String& npc)
 	int i = ITEM_VEC;
 	int creature_comprovant = INVALID;
 	int this_creature = 0;
-	creature_comprovant = Item_verification(npc);
+	creature_comprovant = Creature_verification(npc);
 
 	if (creature_comprovant == INVALID)
 	{
@@ -783,6 +783,33 @@ void Player::Sell(const String& item, const String& npc)
 	}
 
 	printf("You don't have pearls to trade\n");
+	return;
+
+}
+
+void Player::Buy_list(const String& creature)
+{
+	int creature_comprovant = INVALID;
+	int this_creature = 0;
+	creature_comprovant = Creature_verification(creature);
+
+	if (creature_comprovant == INVALID)
+	{
+		printf("Thats not a npc\n");
+		return;
+	}
+
+	if (place != ((Creatures*)world->entity[38])->place)
+	{
+		printf("There are noone to trade with\n");
+		return;
+	}
+
+	Dlist<Entity*>::Node* npc_objects = world->entity[38]->list.first;
+	for (; npc_objects != nullptr; npc_objects = npc_objects->next)
+	{
+		printf("%s have to sell %s\n", ((Creatures*)world->entity[38])->name.c_str(), npc_objects->data->name.c_str());
+	}
 	return;
 
 }

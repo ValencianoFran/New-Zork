@@ -35,6 +35,7 @@ public:
 	int Creature_verification(const String&);
 	void Buy(const String&, const String&);
 	void Sell(const String&, const String&);
+	void Buy_list(const String&);
 	~Player();
 };
 
