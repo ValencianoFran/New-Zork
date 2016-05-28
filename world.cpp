@@ -120,8 +120,7 @@ void World::CreateWorld()
 	
 	//Entity 26
 	entity.push_back(new Items("Pearl", "It seems very expensive\n", (Room*)entity[1], 10, 0, Cant_Equip, false, true, true, ITEM));
-	entity[1]->list.push_back(entity[26]);
-	
+
 	//Entity 27
 	entity.push_back(new Items("Harpoon", "It seems powerful and dangerous\n", (Room*)entity[7], 10, 100, Hand, false, false, false, ITEM));
 	//Is with the Shopman (entity 38)
@@ -129,6 +128,7 @@ void World::CreateWorld()
 	//Entity 28
 	entity.push_back(new Items("Oyster", "Maybe constains something with value inside\n", (Room*)entity[1], 10, 0, Cant_Equip, true, false, false, ITEM));
 	entity[1]->list.push_back(entity[28]);
+	entity[28]->list.push_back(entity[26]);
 	
 	//Entity 29
 	entity.push_back(new Items("Goggles", "This should allow me to snorquel\n", (Room*)entity[6], 10, 0, Head, false, true, true, ITEM));

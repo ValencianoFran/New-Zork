@@ -692,20 +692,25 @@ void Player::Buy(const String& item, const String& npc)
 		printf("There are noone to trade with\n");
 		return;
 	}
+
 	bool finished = false;
 	Dlist<Entity*>::Node* mylist = list.first;
 	Dlist<Entity*>::Node* npc_objects = world->entity[38]->list.first;
 	for (; mylist != nullptr; mylist = mylist->next)
 	{
-		for (; npc_objects != nullptr; npc_objects = npc_objects->next)
+		if (mylist->data->name == "Pearl")
 		{
-			if (mylist->data->name == "Pearl")
+			for (; npc_objects != nullptr; npc_objects = npc_objects->next)
 			{
-				printf("You bought %s from %s\n", npc_objects->data->name.c_str(), npc);
-				list.push_back(npc_objects->data);
-				world->entity[38]->list.push_back(mylist->data);
-				list.erase(mylist);
-				return;
+				if (npc_objects->data->name == item)
+				{
+					printf("You bought %s from %s\n", npc_objects->data->name.c_str(), npc.c_str());
+					list.push_back(npc_objects->data);
+					world->entity[38]->list.erase(npc_objects);
+					world->entity[38]->list.push_back(mylist->data);
+					list.erase(mylist);
+					return;
+				}
 			}
 		}
 		finished = true;
