@@ -119,7 +119,7 @@ void World::CreateWorld()
 	entity.push_back(new Items("Pearl", "It seems very expensive\n", (Room*)entity[1], 10, 0, Cant_Equip, false, true, true, ITEM));
 
 	//Entity 27
-	entity.push_back(new Items("Harpoon", "It seems powerful and dangerous\n", (Room*)entity[7], 10, 100, Hand, false, false, false, ITEM));
+	entity.push_back(new Items("Harpoon", "It seems powerful and dangerous\n", (Room*)entity[7], 10, 60, Hand, false, false, false, ITEM));
 	//Is with the Shopman (entity 38)
 
 	//Entity 28
@@ -131,10 +131,10 @@ void World::CreateWorld()
 	entity.push_back(new Items("Goggles", "This should allow me to snorquel\n", (Room*)entity[6], 10, 0, Head, false, true, true, ITEM));
 	
 	//Entity 30
-	entity.push_back(new Items("Knife", "It cuts, should be careful\n", (Room*)entity[8], 10, 60, Hand, false, true, true, ITEM));
+	entity.push_back(new Items("Knife", "It cuts, should be careful\n", (Room*)entity[8], 10, 30, Hand, false, true, true, ITEM));
 	
 	//Entity 31
-	entity.push_back(new Items("Banana", "It doesn't smell good\n", (Room*)entity[8], 10, 0, Hand, false, false, false, ITEM));
+	entity.push_back(new Items("Banana", "It doesn't smell good\n", (Room*)entity[8], 10, 1, Hand, false, false, false, ITEM));
 	entity[8]->list.push_back(entity[31]);
 	
 	//Entity 32
@@ -152,21 +152,21 @@ void World::CreateWorld()
 	entity[0]->list.push_back(entity[34]);
 
 	//Entity 35
-	entity.push_back(new Creatures("Shark", "He have big teeths\n", (Room*)entity[2], 50, 100, 0, true, CREATURE));
+	entity.push_back(new Creatures("Shark", "He have big teeths\n", (Room*)entity[2], 60, 20, 0, true, CREATURE));
 	
 	//Entity 36
-	entity.push_back(new Creatures("Monkey", "Seems friendly\n", (Room*)entity[4], 10, 20, 0, true, CREATURE));
+	entity.push_back(new Creatures("Monkey", "Seems friendly\n", (Room*)entity[4], 40, 10, 0, true, CREATURE));
 	
 	//Entity 37
-	entity.push_back(new Creatures("Explorer", "He seems interesting\n", (Room*)entity[6], 10, 20, 1, false, NPCS));
+	entity.push_back(new Creatures("Explorer", "He seems interesting\n", (Room*)entity[6], 40, 5, 1, false, NPCS));
 	entity[37]->list.push_back(entity[25]);
 	
 	//Entity 38
-	entity.push_back(new Creatures("Shopman", "He will trade for pearls\n", (Room*)entity[7], 10, 20, 5, false, NPCS));
+	entity.push_back(new Creatures("Shopman", "He will trade for pearls\n", (Room*)entity[7], 40, 5, 5, false, NPCS));
 	entity[38]->list.push_back(entity[27]);
 
 	//Player
-	entity.push_back(player = new Player("Lost", "The protagonist", (Room*)entity[0], 50, 20, 0, false, PLAYER));
+	entity.push_back(player = new Player("Lost", "The protagonist", (Room*)entity[0], 10, 20, 0, false, PLAYER));
 }
 
 

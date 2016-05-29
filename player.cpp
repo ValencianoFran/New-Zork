@@ -20,6 +20,7 @@ void Player::Go(const String& op) //Move player
 {
 	int  i = 0;
 	bool finish = false;   //Check if go action is completed
+	bool done = false;
 	int direction = Direction(op); //Translate String into enum
 
 		for (i = 0; i < world->entity.Size(); i++)
@@ -42,14 +43,18 @@ void Player::Go(const String& op) //Move player
 					}
 					else
 					{
-						this->place = ((Exit*)world->entity[i])->destination;
 						Dlist<Entity*>::Node* mylist = list.first;
-						while (mylist != nullptr)
+						while (mylist != nullptr && done == false)
 						{
-							if (mylist->data->name == "Banana")
+							if (mylist->data->name == "Banana" && ((Creatures*)world->entity[36])->place == place)
 							{
 								printf("Monkey follows you\n");
 								((Creatures*)world->entity[36])->place = ((Exit*)world->entity[i])->destination;	
+							}
+							if (mylist->data->name == "Guitar" && ((Creatures*)world->entity[36])->place == place)
+							{
+								printf("Monkey follows you\n");
+								((Creatures*)world->entity[36])->place = ((Exit*)world->entity[i])->destination;
 							}
 							if (((Creatures*)world->entity[36])->place == ((Creatures*)world->entity[37])->place)
 							{
@@ -58,9 +63,11 @@ void Player::Go(const String& op) //Move player
 								((Creatures*)world->entity[37])->money = 0;
 								list.push_back(world->entity[26]);
 								list.erase(mylist);
+								done = true;
 							}
 							mylist = mylist->next;
 						}
+						this->place = ((Exit*)world->entity[i])->destination;
 						printf("\nYou are in %s\n\n%s \n", this->place->name.c_str(), this->place->description.c_str());
 						for (int j = ITEM_VEC; j < world->entity.Size(); j++)
 						{
@@ -373,7 +380,9 @@ void Player::Drop(const String& item)
 void Player::Equip(const String& item)
 {
 	int item_comprovant = INVALID; 
+	int j = ITEM_VEC;
 	int this_item = 0;
+	bool done = false;
 	item_comprovant = Item_verification(item); // RETURNS THE DAMAGE THAT THIS OBJET INCREASES TO THE PLAYER AND SEE IF THE OBJECT EXIST
 	if (item_comprovant == INVALID)
 	{
@@ -381,12 +390,14 @@ void Player::Equip(const String& item)
 		return;
 	}
 	
-	for (int j = ITEM_VEC; j < world->entity.Size(); j++)
+	while (j < world->entity.Size() && done == false)
 	{
 		if (((Items*)world->entity[j])->name == item)
 		{
 			this_item = j;
+			done = true;
 		}
+		j++;
 	}
 
 	Dlist<Entity*>::Node* mylist = list.first;
@@ -422,17 +433,17 @@ void Player::Equip(const String& item)
 
 		else
 		{
-			if (mylist->data->shape == Hand && hand == true)
+			if (((Items*)world->entity[this_item])->slot == Hand && hand == true)
 			{
 				printf("Your hand is actually equiped\n");
 				return;
 			}
-			if (mylist->data->shape == Head && head == true)
+			if (((Items*)world->entity[this_item])->slot == Head && head == true)
 			{
 				printf("Your head is actually equiped\n");
 				return;
 			}
-			if (mylist->data->shape == Drive && drive == true)
+			if (((Items*)world->entity[this_item])->slot == Drive && drive == true)
 			{
 				printf("You already have transport\n");
 				return;
@@ -446,6 +457,8 @@ void Player::Unequip(const String& item)
 
 	int item_comprovant = INVALID;
 	int this_item = 0;
+	bool done = false;
+	int j = ITEM_VEC;
 	item_comprovant = Item_verification(item);
 	if (item_comprovant == INVALID)
 	{
@@ -453,12 +466,14 @@ void Player::Unequip(const String& item)
 		return;
 	}
 
-	for (int j = ITEM_VEC; j < world->entity.Size(); j++)
+	while (j < world->entity.Size() && done == false)
 	{
 		if (((Items*)world->entity[j])->name == item)
 		{
 			this_item = j;
+			done = true;
 		}
+		j++;
 	}
 
 
@@ -494,17 +509,17 @@ void Player::Unequip(const String& item)
 
 		else
 		{
-			if (mylist->data->shape == Hand && hand == false)
+			if (((Items*)world->entity[this_item])->slot == Hand && hand == false)
 			{
 				printf("Your hand isn't actually equiped\n");
 				return;
 			}
-			if (mylist->data->shape == Head && head == false)
+			if (((Items*)world->entity[this_item])->slot == Head && head == false)
 			{
 				printf("Your head isn't actually equiped\n");
 				return;
 			}
-			if (mylist->data->shape == Drive && drive == false)
+			if (((Items*)world->entity[this_item])->slot == Drive && drive == false)
 			{
 				printf("You don't have transport\n");
 				return;
@@ -885,7 +900,7 @@ void Player::Talk(const String& creature)
 				case '1':
 				{
 					printf("Explorer:\n");
-					printf("Thank you so much\n");
+					printf("Thank you so much, take this guitar, He loves it and maybe will help you to bring him here!\n");
 					done = true;
 					fflush(stdin);
 					break;
