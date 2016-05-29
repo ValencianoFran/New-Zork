@@ -808,7 +808,7 @@ void Player::Buy_list(const String& creature)
 	Dlist<Entity*>::Node* npc_objects = world->entity[38]->list.first;
 	for (; npc_objects != nullptr; npc_objects = npc_objects->next)
 	{
-		printf("%s have to sell %s\n", ((Creatures*)world->entity[38])->name.c_str(), npc_objects->data->name.c_str());
+		printf("%s have %s to sell\n", ((Creatures*)world->entity[38])->name.c_str(), npc_objects->data->name.c_str());
 	}
 	return;
 
