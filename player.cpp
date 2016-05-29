@@ -2,6 +2,8 @@
 #include "dlist.h"
 #include "creatures.h"
 #include "room.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 #define INVALID -1
 
@@ -41,6 +43,24 @@ void Player::Go(const String& op) //Move player
 					else
 					{
 						this->place = ((Exit*)world->entity[i])->destination;
+						Dlist<Entity*>::Node* mylist = list.first;
+						while (mylist != nullptr)
+						{
+							if (mylist->data->name == "Banana")
+							{
+								printf("Monkey follows you\n");
+								((Creatures*)world->entity[36])->place = ((Exit*)world->entity[i])->destination;	
+							}
+							if (((Creatures*)world->entity[36])->place == ((Creatures*)world->entity[37])->place)
+							{
+								printf("Explorer:\n");
+								printf("OH AMANCIO!!\nThank you so much, take this pearl\n");
+								((Creatures*)world->entity[37])->money = 0;
+								list.push_back(world->entity[26]);
+								list.erase(mylist);
+							}
+							mylist = mylist->next;
+						}
 						printf("\nYou are in %s\n\n%s \n", this->place->name.c_str(), this->place->description.c_str());
 						for (int j = ITEM_VEC; j < world->entity.Size(); j++)
 						{
@@ -307,13 +327,7 @@ void Player::Pick(const String& item)
 			}
 		}
 	}
-	else
-	{
-		printf("That item is not here or some NPC got it\n");
-		return;
-	}
-
-	printf("You have already picked that item or it isn't here\n");
+	printf("That item is not here or some NPC got it\n");
 	return;
 }
 
@@ -654,7 +668,7 @@ void Player::Attack(const String& creature)
 	}
 	
 
-	if (((Creatures*)world->entity[j])->place != place)
+	if (((Creatures*)world->entity[this_creature])->place != place)
 	{		
 		printf("The creature is not here\n");
 		return;
@@ -669,7 +683,7 @@ void Player::Attack(const String& creature)
 			printf("You killed %s\n", creature);
 			printf("Creature items has been drop on the floor\n");
 			Dlist<Entity*>::Node* npc_objects = world->entity[this_creature]->list.first;
-			((Creatures*)world->entity[j])->place->list.push_back(npc_objects->data);
+			((Creatures*)world->entity[this_creature])->place->list.push_back(npc_objects->data);
 			((Creatures*)world->entity[this_creature])->list.pop_front();
 			return;
 		}
@@ -817,6 +831,8 @@ void Player::Talk(const String& creature)
 	int creature_comprovant = INVALID;
 	int this_creature = 0;
 	int j = 0;
+	bool done = false;
+	char op = '0';
 	creature_comprovant = Creature_verification(creature);
 
 	if (creature_comprovant == INVALID)
@@ -825,19 +841,71 @@ void Player::Talk(const String& creature)
 		return;
 	}
 
-	for (int j = ITEM_VEC; j < world->entity.Size(); j++)
+	while (j < world->entity.Size() && done == false)
 	{
 		if (((Creatures*)world->entity[j])->name == creature)
 		{
 			this_creature = j;
+			done = true;
 		}
+		j++;
 	}
 
-	/*if (((Creatures*)world->entity[j])->name == "Shopman")
+	if (((Creatures*)world->entity[this_creature])->place != place)
 	{
-		if ()
-		printf()
-	}*/
+		printf("The creature is not here\n");
+		return;
+	}
+
+	if (((Creatures*)world->entity[this_creature])->hp > 0)
+	{
+		done = false;
+		if (((Creatures*)world->entity[this_creature])->name == "Shopman")
+		{
+			printf("Shopman:\n");
+			printf("Hello!!\nI have some items that can be useful to run out of this island and kill the sharks.\nI have:\n");
+			Buy_list(creature);
+		}
+		if (((Creatures*)world->entity[this_creature])->name == "Explorer")
+		{
+			printf("Explorer:\n");
+			printf("Hello!!\nI've lost my friend Amancio, He is a monkey.\nIf you help me to find him I will give you some money.\nPlease hurry up!!:\n");
+			printf("What do you tell me? Will you help me?\n");
+			printf("1) Yes! I will bring him back\n");
+			printf("2) No, people in this island are mad\n");
+			while (done != true)
+			{
+				printf("- ");
+				scanf_s("%c", &op);
+				switch (op)
+				{
+				case '1':
+				{
+					printf("Explorer:\n");
+					printf("Thank you so much\n");
+					done = true;
+					break;
+				}
+				case '2':
+				{
+					printf("Explorer:\n");
+					printf("Ok, I hope you get killed by sharks :)\n");
+					done = true;
+					break;
+				}
+				default:
+					printf("Invalid option\n");
+					break;
+				}
+			}
+					
+		}
+		if (((Creatures*)world->entity[this_creature])->name == "Monkey")
+		{
+			printf("Monkey:\n");
+			printf("Uhuhuhuhuhuhu!!! HuuUUUUUUUUA!\n");
+		}
+	}
 }
 
 Player::~Player()

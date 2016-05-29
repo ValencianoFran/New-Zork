@@ -22,6 +22,7 @@ int main()
 
 	while (1)
 	{
+		fflush(stdin);
 		printf("- ");
 		gets_s(direc, 30);
 		
@@ -134,6 +135,10 @@ int main()
 				{
 					world->player->Attack(commands[1]);
 				}
+				if (commands[0] == "talk")
+				{
+					world->player->Talk(commands[1]);
+				}
 			}
 			else if (commands.Size() == 4)
 			{
@@ -177,7 +182,7 @@ int main()
 			//If the user introduces invalid command
 			else
 			{
-				printf("I don't understand\n\n");
+				printf("Wrong command\n\n");
 			}
 
 		}
