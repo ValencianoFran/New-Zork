@@ -682,9 +682,12 @@ void Player::Attack(const String& creature)
 		{
 			printf("You killed %s\n", creature);
 			printf("Creature items has been drop on the floor\n");
-			Dlist<Entity*>::Node* npc_objects = world->entity[this_creature]->list.first;
-			((Creatures*)world->entity[this_creature])->place->list.push_back(npc_objects->data);
-			((Creatures*)world->entity[this_creature])->list.pop_front();
+			if (world->entity[this_creature]->list.first != nullptr)
+			{
+				Dlist<Entity*>::Node* npc_objects = world->entity[this_creature]->list.first;
+				((Creatures*)world->entity[this_creature])->place->list.push_back(npc_objects->data);
+				((Creatures*)world->entity[this_creature])->list.pop_front();
+			}
 			return;
 		}
 	}
@@ -884,6 +887,7 @@ void Player::Talk(const String& creature)
 					printf("Explorer:\n");
 					printf("Thank you so much\n");
 					done = true;
+					fflush(stdin);
 					break;
 				}
 				case '2':
@@ -891,14 +895,16 @@ void Player::Talk(const String& creature)
 					printf("Explorer:\n");
 					printf("Ok, I hope you get killed by sharks :)\n");
 					done = true;
+					fflush(stdin);
 					break;
 				}
 				default:
 					printf("Invalid option\n");
+					fflush(stdin);
 					break;
 				}
 			}
-					
+			
 		}
 		if (((Creatures*)world->entity[this_creature])->name == "Monkey")
 		{

@@ -180,6 +180,7 @@ int main()
 				world->player->Stats();
 			}
 			//If the user introduces invalid command
+			
 			else
 			{
 				printf("Wrong command\n\n");

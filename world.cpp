@@ -16,7 +16,13 @@ World::World()
 {}
 
 World::~World()
-{}
+{
+	int i;
+	for (i = 0; i < entity.Size(); i++)
+	{
+		delete entity[i];
+	}
+}
 
 
 
@@ -31,13 +37,13 @@ void World::CreateWorld()
 	entity.push_back(new Room("Depths", "It seems to be a pearl inside the oyster\n", ROOM, true));
 	
 	// Entity 2
-	entity.push_back(new Room("Sea", "There are sharks!! I will try to come here later with something to kill them\n", ROOM, true));
+	entity.push_back(new Room("Sea", "Seems dangerous\n", ROOM, true));
 
 	// Entity 3
 	entity.push_back(new Room("Palmtrees Island", "Wow there are a lot of palmtrees, it seems that there are something on that one on the east\n", ROOM, false));
 
 	// Entity 4
-	entity.push_back(new Room("Palmtree", "There are a monkey! what should i do now?", ROOM, false));
+	entity.push_back(new Room("Palmtree", "There is something moving\n", ROOM, false));
 
 	// Entity 5
 	entity.push_back(new Room("Outside house", "I can see a cool house in south, but the door is closed\n", ROOM, false));
