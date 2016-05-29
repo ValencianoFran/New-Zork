@@ -309,7 +309,7 @@ void Player::Pick(const String& item)
 	}
 	else
 	{
-		printf("That item is not here\n");
+		printf("That item is not here or some NPC got it\n");
 		return;
 	}
 
@@ -632,7 +632,10 @@ void Player::Attack(const String& creature)
 	int i = ITEM_VEC;
 	int creature_comprovant = INVALID;
 	int this_creature = 0;
-	creature_comprovant = Item_verification(creature);
+	int creature_room = INVALID;
+	int j = 0;
+	bool done = false;
+	creature_comprovant = Creature_verification(creature);
 
 	if (creature_comprovant == INVALID)
 	{
@@ -640,12 +643,21 @@ void Player::Attack(const String& creature)
 		return;
 	}
 
-	for (int j = ITEM_VEC; j < world->entity.Size(); j++)
+	while (j < world->entity.Size() && done == false)
 	{
 		if (((Creatures*)world->entity[j])->name == creature)
 		{
 			this_creature = j;
+			done = true;
 		}
+		j++;
+	}
+	
+
+	if (((Creatures*)world->entity[j])->place != place)
+	{		
+		printf("The creature is not here\n");
+		return;
 	}
 
 	if (((Creatures*)world->entity[this_creature])->hp > 0)
@@ -654,30 +666,15 @@ void Player::Attack(const String& creature)
 		((Creatures*)world->entity[this_creature])->hp -= damage;
 		if (((Creatures*)world->entity[this_creature])->hp <= 0)
 		{
-			for (int i = 0; i < world->entity.Size(); i++)
-			{
-				if (((Room*)world->entity[i]) == place)
-				{
-					printf("You killed %s\n", creature);
-					return;
-					/*Dlist<Entity*>::Node* npc_objects = world->entity[this_creature]->list.first;
-					for (; npc_objects != nullptr; npc_objects = npc_objects->next)
-					{
-						((Room*)world->entity[i])->list.push_back(npc_objects->data);
-						((Creatures*)world->entity[this_creature])->list.pop_front();
-						printf("NPC dropped items\n");
-					}*/
-					
-				}
-			}
+			printf("You killed %s\n", creature);
+			printf("Creature items has been drop on the floor\n");
+			Dlist<Entity*>::Node* npc_objects = world->entity[this_creature]->list.first;
+			((Creatures*)world->entity[j])->place->list.push_back(npc_objects->data);
+			((Creatures*)world->entity[this_creature])->list.pop_front();
+			return;
 		}
 	}
-	else
-	{
-		printf("The creature is not here\n");
-		return;
-	}
-
+	
 	return;
 }
 
@@ -812,6 +809,35 @@ void Player::Buy_list(const String& creature)
 	}
 	return;
 
+}
+
+void Player::Talk(const String& creature)
+{
+	int i = ITEM_VEC;
+	int creature_comprovant = INVALID;
+	int this_creature = 0;
+	int j = 0;
+	creature_comprovant = Creature_verification(creature);
+
+	if (creature_comprovant == INVALID)
+	{
+		printf("Thats not a creature\n");
+		return;
+	}
+
+	for (int j = ITEM_VEC; j < world->entity.Size(); j++)
+	{
+		if (((Creatures*)world->entity[j])->name == creature)
+		{
+			this_creature = j;
+		}
+	}
+
+	/*if (((Creatures*)world->entity[j])->name == "Shopman")
+	{
+		if ()
+		printf()
+	}*/
 }
 
 Player::~Player()

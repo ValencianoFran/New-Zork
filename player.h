@@ -36,6 +36,7 @@ public:
 	void Buy(const String&, const String&);
 	void Sell(const String&, const String&);
 	void Buy_list(const String&);
+	void Talk(const String&);
 	~Player();
 };
 
