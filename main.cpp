@@ -16,13 +16,14 @@ int main()
 	char direc[30];
 
 	printf("WELCOME TO MY ZORK!\nYou are lost in one island and you have to scape.\nHave fun!\n\n");
-	world->Tutorial(); //Controls
 	world->CreateWorld(); //Create the world
+	world->Tutorial(); //Controls
 	printf("Introduce where you want to go:\n");
 
 	while (1)
 	{
 		fflush(stdin);
+		world->Agressive();
 		printf("- ");
 		gets_s(direc, 30);
 		

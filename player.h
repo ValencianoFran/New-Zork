@@ -7,7 +7,7 @@
 #include "room.h"
 #include "items.h"
 
-class Player :public Creatures
+class Player : public Creatures
 {
 public:
 	bool head = false;

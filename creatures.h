@@ -14,9 +14,6 @@ public:
 	Room* place = nullptr;
 
 	Creatures(const char* name, const char* description, Room*, int hp, int dmg, int money, const bool state, Shape shape);
-	
-
-	
 	~Creatures();
 };
 

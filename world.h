@@ -26,6 +26,7 @@ public:
 	void Tutorial() const;
 	void Inventory();
 	void CreateWorld();
+	void Agressive();
 
 };
 extern World* world;

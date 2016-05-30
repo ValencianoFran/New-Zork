@@ -691,8 +691,14 @@ void Player::Attack(const String& creature)
 
 	if (((Creatures*)world->entity[this_creature])->hp > 0)
 	{
-		printf("You attacked %s\n", creature);
+		printf("You attacked %s and deal %i damage\n", creature, damage);
 		((Creatures*)world->entity[this_creature])->hp -= damage;
+		if (((Creatures*)world->entity[this_creature])->hp > 0 && ((Creatures*)world->entity[this_creature])->state_agressive == false)
+		{
+			printf("%s seems agressive now\n", ((Creatures*)world->entity[this_creature])->name.c_str());
+			((Creatures*)world->entity[this_creature])->state_agressive = true;
+		}
+		
 		if (((Creatures*)world->entity[this_creature])->hp <= 0)
 		{
 			printf("You killed %s\n", creature);

@@ -34,25 +34,25 @@ void World::CreateWorld()
 	entity.push_back(new Room("Shore", "You are in a shore, you can try to do snorquel going down, or explore others directions\n", ROOM, false));
 	
 	// Entity 1
-	entity.push_back(new Room("Depths", "It seems to be a pearl inside the oyster\n", ROOM, true));
+	entity.push_back(new Room("Depths", "This place is so dark and silent\n", ROOM, true));
 	
 	// Entity 2
-	entity.push_back(new Room("Sea", "Seems dangerous\n", ROOM, true));
+	entity.push_back(new Room("Sea", "Seems dangerous, I think I can scape this place if I kill the sharks\n", ROOM, true));
 
 	// Entity 3
 	entity.push_back(new Room("Palmtrees Island", "Wow there are a lot of palmtrees, it seems that there are something on that one on the east\n", ROOM, false));
 
 	// Entity 4
-	entity.push_back(new Room("Palmtree", "There is something moving\n", ROOM, false));
+	entity.push_back(new Room("Palmtree", "This is a big one!\n", ROOM, false));
 
 	// Entity 5
 	entity.push_back(new Room("Outside house", "I can see a cool house in south, but the door is closed\n", ROOM, false));
 
 	// Entity 6
-	entity.push_back(new Room("House", "This house is so extravagant\nThere's a man\n", ROOM, false));
+	entity.push_back(new Room("House", "This house is so extravagant\nWho will live here?\n", ROOM, false));
 
 	// Entity 7
-	entity.push_back(new Room("Shop", "Maybe i should buy something to kill the sharks and leave this islands.\nThere are something down stairs\n", ROOM, false));
+	entity.push_back(new Room("Shop", "Maybe I should buy something to help me kill the sharks and leave this islands.\nThere are something down stairs\n", ROOM, false));
 
 	// Entity 8
 	entity.push_back(new Room("Store", "Here is the inventory of the shop, I could catch something borrowed", ROOM, false));
@@ -64,7 +64,7 @@ void World::CreateWorld()
 	entity.push_back(new Exit("Palmtrees Island\n", "There are a lot of trees, seems interesting\n", (Room*)entity[0], (Room*)entity[3], north, false, EXIT));
 
 	//Entity 10
-	entity.push_back(new Exit("Shore\n", "There is where I begin this adventure, i should try to do snorquel\n", (Room*)entity[3], (Room*)entity[0], south, false, EXIT));
+	entity.push_back(new Exit("Shore\n", "There is where I begin this adventure, I should try to do snorquel with goggles\n", (Room*)entity[3], (Room*)entity[0], south, false, EXIT));
 
 	//Entity 11
 	entity.push_back(new Exit("Palmtree\n", "Maybe there are something in the top of that palmtree\n", (Room*)entity[3], (Room*)entity[4], east, false, EXIT));
@@ -138,7 +138,7 @@ void World::CreateWorld()
 	entity[8]->list.push_back(entity[31]);
 	
 	//Entity 32
-	entity.push_back(new Items("Chest", "There are a knife inside it\n", (Room*)entity[8], 10, 0, Cant_Equip, true, false, false, ITEM));
+	entity.push_back(new Items("Chest", "Maybe contains something\n", (Room*)entity[8], 10, 0, Cant_Equip, true, false, false, ITEM));
 	entity[8]->list.push_back(entity[32]);
 	entity[32]->list.push_back(entity[30]);
 	
@@ -158,21 +158,23 @@ void World::CreateWorld()
 	entity.push_back(new Creatures("Monkey", "Seems friendly\n", (Room*)entity[4], 40, 10, 0, true, CREATURE));
 	
 	//Entity 37
-	entity.push_back(new Creatures("Explorer", "He seems interesting\n", (Room*)entity[6], 40, 5, 1, false, NPCS));
+	entity.push_back(new Creatures("Explorer", "He seems interesting\n", (Room*)entity[6], 40, 20, 1, false, NPCS));
 	entity[37]->list.push_back(entity[25]);
 	
 	//Entity 38
-	entity.push_back(new Creatures("Shopman", "He will trade for pearls\n", (Room*)entity[7], 40, 5, 5, false, NPCS));
+	entity.push_back(new Creatures("Shopman", "He will trade for pearls\n", (Room*)entity[7], 40, 20, 5, false, NPCS));
 	entity[38]->list.push_back(entity[27]);
 
 	//Player
-	entity.push_back(player = new Player("Lost", "The protagonist", (Room*)entity[0], 10, 20, 0, false, PLAYER));
+	entity.push_back(player = new Player("Lost", "The protagonist", (Room*)entity[0], 50, 20, 0, false, PLAYER));
 }
 
 
 void World::Tutorial() const //Controls of the game
 {
 	printf("CONTROLS:\n\tYou can use these commands:\n\tgo [direction], look [direction], open/close [direction], help and quit\n\twith these directions:\n\t<north, south, east, west, up, down>\n\t<n, s, e, w, u, d>\n\tPick/Drop <pick, drop>\n\tEquip/Unequip <equip, unequip>\n\tInventory <inventory, inv, i>\n\tput/get <item> into/from <item>\n\n\tDefault action is 'go' if you only introduce the direction.\n");
+	printf("You have this stats:\n");
+	world->player->Stats();
 }
 
 void World::Inventory()
@@ -191,4 +193,19 @@ void World::Inventory()
 		return;
 	}
 	return;
+}
+
+void World::Agressive()
+{
+	int j = ITEM_VEC;
+	while (j < world->entity.Size())
+	{
+		if (((Creatures*)entity[j])->place == player->place && ((Creatures*)entity[j])->state_agressive == true && ((Creatures*)entity[j])->hp > 0)
+		{
+			printf("You get attacked by %s\n", ((Creatures*)world->entity[j])->name.c_str());
+			printf("He deals %i damage to you\n", ((Creatures*)world->entity[j])->damage);
+			world->player->hp -= ((Creatures*)world->entity[j])->damage;
+		}
+		j++;
+	}
 }
