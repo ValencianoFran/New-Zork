@@ -8,6 +8,7 @@
 #define INVALID -1
 #define DELAY 10000
 #define COMMANDBUFFER 50
+#define SPECIAL_COOLDOWN 20000
 
 World* world = nullptr;
 
@@ -29,9 +30,8 @@ int main()
 	while (1)
 	{
 		currenttime = GetTickCount();
-		if (currenttime >= (initialtime + DELAY) && ((Creatures*)world->entity[36])->state_agressive == false && ((Creatures*)world->entity[36])->hp > 0)
+		if (currenttime >= (initialtime + DELAY) && ((Creatures*)world->entity[36])->state_agressive == false && ((Creatures*)world->entity[36])->hp > 0 && ((Creatures*)world->entity[36])->place != ((Creatures*)world->entity[37])->place)
 		{
-			//printf("ENTER\n");
 			((Creatures*)world->entity[36])->Update();
 			initialtime = currenttime;
 		}
@@ -49,11 +49,10 @@ int main()
 			//Win condition
 			if (((Creatures*)world->entity[35])->hp <= 0)
 			{
-				printf("Congratulations!!\nYou killed the shark, so you can escape this island!!\n");
+				printf("Congratulations winner!!\n");
 				system("pause");
 				break;
 			}
-			//printf("\n//////////////////////////////////////////////////////////////\n");
 			printf("- ");
 			gets_s(direc, 30);
 

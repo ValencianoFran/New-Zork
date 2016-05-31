@@ -13,7 +13,21 @@ void Creatures::Update()
 	int random_exit = 9 + rand() % 16;
 	Room* prev = ((Creatures*)world->entity[36])->place;
 	bool done = false;
-	if (((Creatures*)world->entity[36])->hp > 0) //36 == monkey
+	Dlist<Entity*>::Node* mylist = world->player->list.first;
+	while (mylist != nullptr)
+	{
+		if (mylist->data->name == "Banana")
+		{
+			done = true;
+		}
+		if (mylist->data->name == "Guitar" && ((Creatures*)world->entity[36])->place == place)
+		{
+			done = true;
+		}
+		mylist = mylist->next;
+	}
+
+	if (((Creatures*)world->entity[36])->hp > 0 && done == false) //36 == monkey
 	{
 		while(done == false)
 		{

@@ -56,7 +56,7 @@ void Player::Go(const String& op) //Move player
 								printf("Monkey follows you\n");
 								((Creatures*)world->entity[36])->place = ((Exit*)world->entity[i])->destination;
 							}
-							if (((Creatures*)world->entity[36])->place == ((Creatures*)world->entity[37])->place)
+							if (((Creatures*)world->entity[36])->place == ((Creatures*)world->entity[37])->place && ((Creatures*)world->entity[37])->money != 0)
 							{
 								printf("Explorer:\n");
 								printf("OH AMANCIO!!\nThank you so much, take this pearl\n");
@@ -702,6 +702,10 @@ void Player::Attack(const String& creature)
 		if (((Creatures*)world->entity[this_creature])->hp <= 0)
 		{
 			printf("You killed %s\n", creature);
+			if (((Creatures*)world->entity[35])->hp <= 0)
+			{
+				printf("\n\nCongratulations!! \nYou killed the Shark, now you can leave this islands, you won!\n");
+			}
 			printf("Creature items has been drop on the floor\n");
 			if (world->entity[this_creature]->list.first != nullptr)
 			{
