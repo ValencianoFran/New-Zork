@@ -18,12 +18,13 @@ int main()
 	printf("WELCOME TO MY ZORK!\nYou are lost in one island and you have to scape.\nHave fun!\n\n");
 	world->CreateWorld(); //Create the world
 	world->Tutorial(); //Controls
-	printf("Introduce where you want to go:\n");
 
 	while (1)
 	{
 		fflush(stdin);
 		world->Agressive();
+		printf("//////////////////////////////////////////////////////////////\n");
+		printf("Introduce an action:\n");
 		printf("- ");
 		gets_s(direc, 30);
 		
@@ -33,13 +34,6 @@ int main()
 			action.tolower_method();
 			int spaces = action.spaces();
 			Vector<String> commands = action.Divide(" ", direc);
-
-			if (world->player->hp <= 0)
-			{
-				printf("You has been killed, you Lost\n");
-				system("pause");
-				break;
-			}
 
 			if (commands[0] == "quit" || commands[0] == "q")
 			{
@@ -185,6 +179,21 @@ int main()
 			else
 			{
 				printf("Wrong command\n\n");
+			}
+
+			//Lose condition
+			if (world->player->hp <= 0)
+			{
+				printf("You has been killed, you Lost\n");
+				system("pause");
+				break;
+			}
+			//Win condition
+			if (((Creatures*)world->entity[35])->hp <= 0)
+			{
+				printf("Congratulations!!\nYou killed the shark, so you can escape this island!!\n");
+				system("pause");
+				break;
 			}
 
 		}

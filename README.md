@@ -17,6 +17,9 @@ With these directions:
 					Equip/Unequip <equip, unequip>
 					Inventory <inventory, inv, i>
 					put/get <item> into/from <item>
+					attack <npc>
+					talk <npc>, then choose one option
+					buy/sell <item> from <npc>
 						
 Default action is 'go' if you only introduce the direction.\n"
 
@@ -24,6 +27,8 @@ The Curse of the lost will be set in sea and islands.
 The protagonist is shipwrecked and we do not know his history. 
 Our main objective will be leave the area of islands, but there is a problem, the sea is full of sharks 
 and we have no way of killing them, so we must explore the map to find a way to eliminate them.
+
+We can get pearls to trade with the shopman and buy the harpoon to kill the sharks.
 
 Web link: http://valencianofran.github.io/ZorkGame_Curse_Of_The_Lost/
 
@@ -46,7 +51,7 @@ ITEMS:
 
 -Knife: is on the chest.
 
--Rotten banana: player can give it to the monkey.
+-Banana: player can use it to attract the monkey.
 
 -Chest: contains knife.
 

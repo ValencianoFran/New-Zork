@@ -155,7 +155,7 @@ void World::CreateWorld()
 	entity.push_back(new Creatures("Shark", "He have big teeths\n", (Room*)entity[2], 60, 20, 0, true, CREATURE));
 	
 	//Entity 36
-	entity.push_back(new Creatures("Monkey", "Seems friendly\n", (Room*)entity[4], 40, 10, 0, true, CREATURE));
+	entity.push_back(new Creatures("Monkey", "Seems friendly\n", (Room*)entity[4], 40, 10, 0, false, CREATURE));
 	
 	//Entity 37
 	entity.push_back(new Creatures("Explorer", "He seems interesting\n", (Room*)entity[6], 40, 20, 1, false, NPCS));
