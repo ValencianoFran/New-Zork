@@ -66,7 +66,7 @@ int main()
 			printf("- ");
 			gets_s(direc, 30);
 
-			if (direc != "" && direc != " " && direc != NULL)
+			if (direc != "" && direc != " " && direc != NULL && direc[0] != '\0')
 			{
 				action = direc;
 				action.tolower_method();
