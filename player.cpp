@@ -7,6 +7,7 @@
 
 #define INVALID -1
 
+
 Player::Player(const char* name, const char* description, Room* pos, int hp, int dmg,  int money,  bool state, Shape shape) : Creatures(name, description, pos, hp, dmg, money, state, shape)//hp(hp), damage(dmg), position(pos)
 {}
 
@@ -911,6 +912,9 @@ void Player::Talk(const String& creature)
 				{
 					printf("Explorer:\n");
 					printf("Thank you so much, take this guitar, He loves it and maybe will help you to bring him here!\n");
+					Dlist<Entity*>::Node* npc_objects = world->entity[this_creature]->list.first;
+					list.push_back(npc_objects->data);
+					world->entity[this_creature]->list.erase(npc_objects);
 					done = true;
 					fflush(stdin);
 					break;
@@ -937,6 +941,72 @@ void Player::Talk(const String& creature)
 			printf("Uhuhuhuhuhuhu!!! HuuUUUUUUUUA!\n");
 		}
 	}
+}
+
+void Player::SpecialAttack(const String& creature)
+{
+	unsigned int currenttime = 0;
+	unsigned int initialtime = 0;
+	
+		int i = ITEM_VEC;
+		int creature_comprovant = INVALID;
+		int this_creature = 0;
+		int creature_room = INVALID;
+		int j = 0;
+		bool done = false;
+		creature_comprovant = Creature_verification(creature);
+
+		if (creature_comprovant == INVALID)
+		{
+			printf("Thats not a creature\n");
+			return;
+		}
+
+		while (j < world->entity.Size() && done == false)
+		{
+			if (((Creatures*)world->entity[j])->name == creature)
+			{
+				this_creature = j;
+				done = true;
+			}
+			j++;
+		}
+
+
+		if (((Creatures*)world->entity[this_creature])->place != place)
+		{
+			printf("The creature is not here\n");
+			return;
+		}
+
+		if (((Creatures*)world->entity[this_creature])->hp > 0)
+		{
+			printf("You spitted %s and deal 1 damage\n", creature);
+			((Creatures*)world->entity[this_creature])->hp -= 1;
+			if (((Creatures*)world->entity[this_creature])->hp > 0 && ((Creatures*)world->entity[this_creature])->state_agressive == false)
+			{
+				printf("%s seems agressive now\n", ((Creatures*)world->entity[this_creature])->name.c_str());
+				((Creatures*)world->entity[this_creature])->state_agressive = true;
+			}
+
+			if (((Creatures*)world->entity[this_creature])->hp <= 0)
+			{
+				printf("You killed %s spitting him\n", creature);
+				if (((Creatures*)world->entity[35])->hp <= 0)
+				{
+					printf("\n\nCongratulations!! \nYou killed the Shark, now you can leave this islands, you won!\n");
+				}
+				printf("Creature items has been drop on the floor\n");
+				if (world->entity[this_creature]->list.first != nullptr)
+				{
+					Dlist<Entity*>::Node* npc_objects = world->entity[this_creature]->list.first;
+					((Creatures*)world->entity[this_creature])->place->list.push_back(npc_objects->data);
+					((Creatures*)world->entity[this_creature])->list.pop_front();
+				}
+				return;
+			}
+		}
+	return;
 }
 
 Player::~Player()

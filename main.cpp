@@ -8,7 +8,8 @@
 #define INVALID -1
 #define DELAY 10000
 #define COMMANDBUFFER 50
-#define SPECIAL_COOLDOWN 20000
+#define SPECIAL_COOLDOWN 10000
+
 
 World* world = nullptr;
 
@@ -18,6 +19,9 @@ int main()
 	world = new World;
 	unsigned int currenttime = 0;
 	unsigned int initialtime = 0;
+	unsigned int initialtime_special = 0;
+	unsigned int special_time = 0;
+	bool special_avaliable = true;
 	Items item;
 	String action;
 	char direc[30];
@@ -34,6 +38,12 @@ int main()
 		{
 			((Creatures*)world->entity[36])->Update();
 			initialtime = currenttime;
+		}
+
+		if (special_time >= (initialtime_special + SPECIAL_COOLDOWN))
+		{
+			special_avaliable = true;
+			initialtime_special = special_time;
 		}
 
 		if (_kbhit())
@@ -162,6 +172,22 @@ int main()
 					{
 						world->player->Talk(commands[1]);
 					}
+				}
+				else if (commands.Size() == 3)
+				{
+						if (commands[0] == "special" && commands[1] == "attack")
+						{
+							if (special_avaliable == true)
+							{
+								world->player->SpecialAttack(commands[2]);
+								special_avaliable = false;
+								special_time = GetTickCount();
+							}
+							else if (special_avaliable == false)
+							{
+								printf("Special attack on cool down\n");
+							}
+						}
 				}
 				else if (commands.Size() == 4)
 				{

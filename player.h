@@ -37,6 +37,7 @@ public:
 	void Sell(const String&, const String&);
 	void Buy_list(const String&);
 	void Talk(const String&);
+	void SpecialAttack(const String&);
 	~Player();
 };
 
