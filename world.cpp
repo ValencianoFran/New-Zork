@@ -162,7 +162,7 @@ void World::CreateWorld()
 	entity[37]->list.push_back(entity[25]);
 	
 	//Entity 38
-	entity.push_back(new Creatures("Shopman", "He will trade for pearls\n", (Room*)entity[7], 40, 20, 5, false, NPCS));
+	entity.push_back(new Creatures("Shopman", "He will trade for pearls\n", (Room*)entity[7], 40, 50, 5, false, NPCS));
 	entity[38]->list.push_back(entity[27]);
 
 	//Player
@@ -172,8 +172,8 @@ void World::CreateWorld()
 
 void World::Tutorial() const //Controls of the game
 {
-	printf("CONTROLS:\n\tYou can use these commands:\n\tgo [direction], look [direction], open/close [direction], help and quit\n\twith these directions:\n\t<north, south, east, west, up, down>\n\t<n, s, e, w, u, d>\n\tPick/Drop <pick, drop>\n\tEquip/Unequip <equip, unequip>\n\tInventory <inventory, inv, i>\n\tput/get <item> into/from <item>\n\n\tDefault action is 'go' if you only introduce the direction.\n");
-	printf("You have this stats:\n");
+	printf("CONTROLS:\n\tYou can use these commands:\n\tgo [direction], look [direction], open/close [direction], help and quit\n\twith these directions:\n\t<north, south, east, west, up, down>\n\t<n, s, e, w, u, d>\n\tPick/Drop <pick, drop>\n\tEquip/Unequip <equip, unequip>\n\tInventory <inventory, inv, i>\n\tput/get <item> into/from <item>\n\tattack <npc>\n\ttalk <npc>, then choose one option\n\tbuy / sell <item> from <npc>\n\n\tDefault action is 'go' if you only introduce the direction.\n");
+	printf("\nYou have this stats:\n");
 	world->player->Stats();
 }
 
@@ -204,7 +204,7 @@ void World::Agressive()
 		{
 			printf("You get attacked by %s\n", ((Creatures*)world->entity[j])->name.c_str());
 			printf("He deals %i damage to you\n", ((Creatures*)world->entity[j])->damage);
-			world->player->hp -= ((Creatures*)world->entity[j])->damage;
+			player->hp -= ((Creatures*)world->entity[j])->damage;
 		}
 		j++;
 	}

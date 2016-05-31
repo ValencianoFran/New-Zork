@@ -18,6 +18,7 @@ public:
 	Entity();
 	Entity(const char* name, const char* description, const Shape shape);
 	virtual void Look(){};
+	virtual void Update(){};
 	~Entity();
 };
 

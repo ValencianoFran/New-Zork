@@ -131,7 +131,7 @@ void Player::Look(const String& op) //Look the exit
 
 	if (op == "look" || op == "l")
 	{
-		printf("\nYou see %s\n%s ", place->name.c_str(), place->description.c_str());
+		printf("\nYou see %s\n%s", place->name.c_str(), place->description.c_str());
 		for (int j = ITEM_VEC; j < world->entity.Size(); j++)
 		{
 			if (((Creatures*)world->entity[j])->place == place && ((Creatures*)world->entity[j])->hp > 0 && ((Creatures*)world->entity[j])->name != "Lost")
