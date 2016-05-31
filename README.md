@@ -20,19 +20,25 @@ With these directions:
 					attack <npc>
 					talk <npc>, then choose one option
 					buy/sell <item> from <npc>
+					special attack <npc>
+					See your stats <stats>
+					
 						
 Default action is 'go' if you only introduce the direction.\n"
 
 The Curse of the lost will be set in sea and islands. 
-The protagonist is shipwrecked and we do not know his history. 
+The protagonist is The Lost and we do not know his history. 
 Our main objective will be leave the area of islands, but there is a problem, the sea is full of sharks 
 and we have no way of killing them, so we must explore the map to find a way to eliminate them.
 
-We can get pearls to trade with the shopman and buy the harpoon to kill the sharks.
+We can get pearls to trade with the shopman and buy the harpoon to kill the sharks and there are dialogues 
+with the Explorer on the house.
 
-Web link: http://valencianofran.github.io/ZorkGame_Curse_Of_The_Lost/
+You have an special attack, a split which deals 1 damage. (special attack <npc>)
 
-Wiki link: https://github.com/ValencianoFran/ZorkGame_Curse_Of_The_Lost/wiki
+Web link: https://github.com/ValencianoFran/New-Zork
+
+Wiki link: https://github.com/ValencianoFran/New-Zork/wiki
 
 
 ITEMS:
