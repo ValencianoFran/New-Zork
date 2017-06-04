@@ -2,7 +2,7 @@ Hello Zork!
 
 (RELEASE v.05) - GitHub given me error with Branch and i didn't know how to fix it, so I did another repository.
 		 Link to the last Zork to see the commits:
-		 https://github.com/ValencianoFran/ZorkGame_Curse_Of_The_Lost
+		 https://github.com/botttos/ZorkGame_Curse_Of_The_Lost
 
 CONTROLS:
 You can use these commands:
